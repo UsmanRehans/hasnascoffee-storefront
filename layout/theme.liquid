@@ -33,6 +33,7 @@
   <a class="skip-to-content" href="#MainContent">Skip to content</a>
 
   {% section 'header' %}
+  {% render 'cart-drawer' %}
 
   <main id="MainContent" role="main" tabindex="-1">
     {{ content_for_layout }}
@@ -41,5 +42,6 @@
   {% section 'footer' %}
 
   {{ 'theme.js' | asset_url | script_tag }}
+  {{ 'cart-drawer.js' | asset_url | script_tag }}
 </body>
 </html>

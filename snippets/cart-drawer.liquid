@@ -1,0 +1,50 @@
+{%- comment -%} AJAX Cart Drawer {%- endcomment -%}
+
+<div class="cart-drawer__overlay" id="hc-cart-overlay" aria-hidden="true"></div>
+
+<div class="cart-drawer" id="hc-cart-drawer" aria-hidden="true" role="dialog" aria-label="Your cart" aria-modal="true">
+
+  <div class="cart-drawer__header">
+    <p class="cart-drawer__title">Your Cart</p>
+    <button class="cart-drawer__close" id="hc-cart-close" aria-label="Close cart">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="cart-drawer__cols-header">
+    <span>Product</span>
+    <span>Total</span>
+  </div>
+
+  <div class="cart-drawer__body" id="hc-cart-body">
+    <div class="cart-drawer__empty" id="hc-cart-empty" hidden>
+      <p>Your cart is empty.</p>
+      <a href="/collections/all" class="cart-drawer__shop-link">Start shopping →</a>
+    </div>
+  </div>
+
+  <div class="cart-drawer__footer" id="hc-cart-footer">
+    <details class="cart-drawer__notes">
+      <summary class="cart-drawer__notes-trigger">
+        Order special instructions
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <textarea
+        class="cart-drawer__notes-input"
+        id="hc-cart-note"
+        name="note"
+        placeholder="Add a note to your order…"
+        rows="3"
+      ></textarea>
+    </details>
+
+    <div class="cart-drawer__total">
+      <span>Estimated total</span>
+      <span id="hc-cart-total">$0.00 USD</span>
+    </div>
+    <p class="cart-drawer__tax-note">Taxes, discounts and shipping calculated at checkout.</p>
+
+    <a href="/checkout" class="cart-drawer__checkout" id="hc-cart-checkout">Check Out</a>
+  </div>
+
+</div>

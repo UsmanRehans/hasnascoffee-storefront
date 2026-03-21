@@ -18,7 +18,12 @@
           loading="eager"
         >
       {% else %}
-        <span class="header__logo-text">{{ shop.name }}</span>
+        <img
+          src="{{ 'Hasna-Logo-3-BG-Removed.png' | asset_url }}"
+          alt="{{ shop.name }}"
+          width="{{ section.settings.logo_width }}"
+          loading="eager"
+        >
       {% endif %}
     </a>
 

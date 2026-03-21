@@ -26,19 +26,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get Shopify access token
-        id: get_token
-        run: |
-          TOKEN=$(curl -s -X POST "https://y0ngah-e1.myshopify.com/admin/oauth/access_token" \
-            -H "Content-Type: application/json" \
-            -d "{\"client_id\":\"${{ secrets.SHOPIFY_CLIENT_ID }}\",\"client_secret\":\"${{ secrets.SHOPIFY_CLIENT_SECRET }}\",\"grant_type\":\"client_credentials\"}" | jq -r '.access_token')
-          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
-            echo "OAuth token fetch failed, falling back to SHOPIFY_THEME_TOKEN"
-            TOKEN="${{ secrets.SHOPIFY_THEME_TOKEN }}"
-          fi
-          echo "::add-mask::$TOKEN"
-          echo "shopify_token=$TOKEN" >> "$GITHUB_OUTPUT"
-
       - name: Set theme ID
         id: set_theme
         run: |
@@ -55,8 +42,7 @@ jobs:
 
       - name: Deploy theme
         env:
-          SHOPIFY_FLAG_STORE: y0ngah-e1.myshopify.com
-          SHOPIFY_CLI_THEME_TOKEN: ${{ steps.get_token.outputs.shopify_token }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_THEME_TOKEN }}
         run: |
           shopify theme push \
             --store y0ngah-e1.myshopify.com \

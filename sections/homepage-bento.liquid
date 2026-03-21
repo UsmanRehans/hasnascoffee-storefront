@@ -100,7 +100,7 @@
 
         <div class="hp-bento__about-content">
           <p class="hp-bento__label">{{ section.settings.about_eyebrow | default: 'About our café' }}</p>
-          <p class="hp-bento__text">{{ section.settings.about_text | default: 'Hasna\'s Coffee brings the Ethiopian coffee ceremony to Austin. Every cup tells the story of its origin — roasted with care, served with love.' }}</p>
+          <p class="hp-bento__text">{{ section.settings.about_text | default: "Hasna's Coffee brings the Ethiopian coffee ceremony to Austin. Every cup tells the story of its origin - roasted with care, served with love." }}</p>
           {% if section.settings.about_link_label %}
             <a href="{{ section.settings.about_link | default: '/pages/about' }}" class="hp-bento__link">
               {{ section.settings.about_link_label }}

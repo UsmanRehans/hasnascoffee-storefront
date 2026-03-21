@@ -16,9 +16,15 @@
             <div class="testimonial-card" {{ block.shopify_attributes }}>
               <div class="testimonial-card__stars">
                 {% for i in (1..5) %}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="{{ block.settings.rating >= forloop.index | yesno: 'currentColor', 'none' }}" stroke="currentColor" stroke-width="2">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                  </svg>
+                  {% if block.settings.rating >= forloop.index %}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  {% else %}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  {% endif %}
                 {% endfor %}
               </div>
               <blockquote class="testimonial-card__quote">

@@ -10,10 +10,17 @@
     </button>
 
     <a href="{{ routes.root_url }}" class="header__logo">
+      <img
+        src="{{ 'Hasna-Logo-No-Text.png' | asset_url }}"
+        alt=""
+        class="header__logo-icon"
+        loading="eager"
+      >
       {% if section.settings.logo %}
         <img
           src="{{ section.settings.logo | img_url: '300x' }}"
           alt="{{ shop.name }}"
+          class="header__logo-text-img"
           width="{{ section.settings.logo_width }}"
           loading="eager"
         >
@@ -21,7 +28,7 @@
         <img
           src="{{ 'Hasna-Logo-Text.png' | asset_url }}"
           alt="{{ shop.name }}"
-          width="{{ section.settings.logo_width }}"
+          class="header__logo-text-img"
           loading="eager"
         >
       {% endif %}

@@ -46,7 +46,7 @@ jobs:
         run: |
           shopify theme push \
             --store y0ngah-e1.myshopify.com \
-            --theme-id ${{ steps.set_theme.outputs.theme_id }} \
+            --theme ${{ steps.set_theme.outputs.theme_id }} \
             --allow-live \
             --no-color
 

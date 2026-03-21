@@ -1,0 +1,33 @@
+{% if recommendations.performed? and recommendations.products_count > 0 %}
+  <section class="related-products section-padding">
+    <div class="container">
+      <div class="section-header section-header--center">
+        <p class="section-eyebrow">You May Also Like</p>
+        <h2 class="section-heading">More to Explore</h2>
+      </div>
+      <div class="products-grid">
+        {% for product in recommendations.products limit: 4 %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Related Products",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    }
+  ]
+}
+{% endschema %}

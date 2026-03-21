@@ -1,0 +1,211 @@
+<section class="about section-padding {% if section.settings.dark_background %}about--dark{% endif %}">
+  <div class="container">
+    <div class="about__grid">
+
+      <div class="about__media">
+        {% if section.settings.image %}
+          <div class="about__image-wrap">
+            <img
+              src="{{ section.settings.image | img_url: '900x' }}"
+              alt="{{ section.settings.image.alt | escape }}"
+              loading="lazy"
+              class="about__image"
+            >
+          </div>
+        {% else %}
+          <div class="about__image-wrap about__image-wrap--placeholder">
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'about__placeholder-svg' }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.image_2 %}
+          <div class="about__image-wrap about__image-wrap--secondary">
+            <img
+              src="{{ section.settings.image_2 | img_url: '600x' }}"
+              alt="{{ section.settings.image_2.alt | escape }}"
+              loading="lazy"
+            >
+          </div>
+        {% endif %}
+
+        <div class="about__badge">
+          <span class="about__badge-number">{{ section.settings.badge_number }}</span>
+          <span class="about__badge-text">{{ section.settings.badge_text }}</span>
+        </div>
+      </div>
+
+      <div class="about__content">
+        {% if section.settings.eyebrow %}
+          <p class="section-eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+
+        {% if section.settings.heading %}
+          <h2 class="section-heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.text %}
+          <div class="about__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+
+        <div class="about__features">
+          {% for block in section.blocks %}
+            {% if block.type == 'feature' %}
+              <div class="about__feature" {{ block.shopify_attributes }}>
+                <div class="about__feature-icon">
+                  {% if block.settings.icon == 'leaf' %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                  {% elsif block.settings.icon == 'globe' %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  {% elsif block.settings.icon == 'star' %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {% elsif block.settings.icon == 'heart' %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  {% endif %}
+                </div>
+                <div>
+                  <h4 class="about__feature-title">{{ block.settings.title }}</h4>
+                  <p class="about__feature-text">{{ block.settings.text }}</p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if section.settings.button_label %}
+          <a href="{{ section.settings.button_link }}" class="btn btn--primary">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "dark_background",
+      "label": "Dark background",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Secondary image (accent)"
+    },
+    {
+      "type": "text",
+      "id": "badge_number",
+      "label": "Badge number",
+      "default": "10+"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Years of Excellence"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Our Story"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Passion Poured Into Every Cup"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>We believe great coffee starts long before it reaches your cup. From sourcing relationships with farmers who share our values, to small-batch roasting that honors each bean's unique character — we obsess over every detail so you can simply enjoy.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "globe", "label": "Globe" },
+            { "value": "star", "label": "Star" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Sustainably Sourced"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Partnering directly with farmers for fair trade practices."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "leaf",
+            "title": "Sustainably Sourced",
+            "text": "Partnering directly with farmers for fair trade and ethical practices."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "globe",
+            "title": "Single Origin",
+            "text": "Beans from renowned growing regions across 15+ countries."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "star",
+            "title": "Award Winning",
+            "text": "Recognized by the Specialty Coffee Association for quality."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

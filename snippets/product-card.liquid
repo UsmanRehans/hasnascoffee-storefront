@@ -1,0 +1,84 @@
+{% comment %}
+  Product Card Snippet
+  Usage: {% render 'product-card', product: product %}
+{% endcomment %}
+
+<div class="product-card" data-product-id="{{ product.id }}">
+  <a href="{{ product.url }}" class="product-card__link" tabindex="-1" aria-hidden="true">
+    <div class="product-card__image-wrap">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | img_url: '600x600', crop: 'center' }}"
+          alt="{{ product.featured_image.alt | escape | default: product.title }}"
+          loading="lazy"
+          class="product-card__image product-card__image--primary"
+          width="600"
+          height="600"
+        >
+        {% if product.images[1] %}
+          <img
+            src="{{ product.images[1] | img_url: '600x600', crop: 'center' }}"
+            alt="{{ product.images[1].alt | escape | default: product.title }}"
+            loading="lazy"
+            class="product-card__image product-card__image--secondary"
+            width="600"
+            height="600"
+          >
+        {% endif %}
+      {% else %}
+        <div class="product-card__no-image">
+          {{ product.title | slice: 0 }}
+        </div>
+      {% endif %}
+
+      {% if product.compare_at_price > product.price %}
+        <span class="product-card__badge product-card__badge--sale">Sale</span>
+      {% elsif product.tags contains 'new' %}
+        <span class="product-card__badge product-card__badge--new">New</span>
+      {% endif %}
+
+      <div class="product-card__quick-add">
+        {% if product.variants.size == 1 and product.available %}
+          <button
+            class="btn btn--primary btn--small product-card__atc"
+            data-product-id="{{ product.variants.first.id }}"
+            aria-label="Add {{ product.title }} to cart"
+          >
+            Add to Cart
+          </button>
+        {% elsif product.available %}
+          <a href="{{ product.url }}" class="btn btn--primary btn--small">
+            Select Options
+          </a>
+        {% else %}
+          <span class="product-card__sold-out">Sold Out</span>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+
+  <div class="product-card__info">
+    {% if product.metafields.custom.origin %}
+      <p class="product-card__origin">{{ product.metafields.custom.origin }}</p>
+    {% elsif product.tags contains 'origin:' %}
+      {%- assign origin_tag = product.tags | split: ',' | map: 'strip' -%}
+      {%- for tag in origin_tag -%}
+        {%- if tag contains 'origin:' -%}
+          <p class="product-card__origin">{{ tag | remove: 'origin:' | strip }}</p>
+        {%- endif -%}
+      {%- endfor -%}
+    {% endif %}
+
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <div class="product-card__price-wrap">
+      <span class="product-card__price">{{ product.price | money }}</span>
+      {% if product.compare_at_price > product.price %}
+        <span class="product-card__compare-price">{{ product.compare_at_price | money }}</span>
+        <span class="product-card__savings">Save {{ product.price | minus: product.compare_at_price | abs | money }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>

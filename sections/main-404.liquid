@@ -1,0 +1,18 @@
+<section class="error-page section-padding">
+  <div class="container" style="text-align: center; padding: var(--space-32) var(--container-pad);">
+    <p class="section-eyebrow">404 Error</p>
+    <h1 class="section-heading" style="margin-bottom: var(--space-4)">Page Not Found</h1>
+    <p style="color: var(--color-text-muted); margin-bottom: var(--space-8); font-size: var(--text-lg);">
+      Looks like this page has gone off the shelf. Let's get you back to the good stuff.
+    </p>
+    <a href="{{ routes.root_url }}" class="btn btn--primary btn--large">Back to Home</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

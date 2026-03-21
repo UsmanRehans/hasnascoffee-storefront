@@ -1,0 +1,125 @@
+<section class="collection-page section-padding">
+  <div class="container">
+
+    <div class="collection-page__header">
+      {% if collection.image %}
+        <div class="collection-page__hero">
+          <img src="{{ collection.image | img_url: '2000x400', crop: 'center' }}" alt="{{ collection.title }}" loading="eager">
+          <div class="collection-page__hero-overlay">
+            <h1 class="collection-page__title">{{ collection.title }}</h1>
+            {% if collection.description != blank %}
+              <p class="collection-page__description">{{ collection.description }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% else %}
+        <div class="collection-page__title-wrap">
+          <h1 class="collection-page__title section-heading">{{ collection.title }}</h1>
+          {% if collection.description != blank %}
+            <p class="collection-page__description section-subheading">{{ collection.description }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="collection-page__toolbar">
+      <p class="collection-page__count">{{ collection.products_count }} products</p>
+      <div class="collection-page__sort">
+        <label for="SortBy" class="sr-only">Sort by</label>
+        <select id="SortBy" class="collection-sort-select" onchange="window.location.href = window.location.pathname + '?sort_by=' + this.value">
+          <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>Featured</option>
+          <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+          <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>A–Z</option>
+          <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>Z–A</option>
+          <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low–High</option>
+          <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High–Low</option>
+          <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+        </select>
+      </div>
+    </div>
+
+    {% if collection.products.size > 0 %}
+      <div class="products-grid">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        {% paginate collection.products by 12 %}
+          <div class="pagination">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}" class="btn btn--outline">← Previous</a>
+            {% endif %}
+            <span class="pagination__info">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}" class="btn btn--outline">Next →</a>
+            {% endif %}
+          </div>
+        {% endpaginate %}
+      {% endif %}
+    {% else %}
+      <div class="collection-page__empty">
+        <p>No products found in this collection.</p>
+        <a href="{{ routes.root_url }}" class="btn btn--primary">Back to Home</a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+.collection-page__hero {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: var(--space-10);
+  aspect-ratio: 5/1;
+}
+.collection-page__hero img { width: 100%; height: 100%; object-fit: cover; }
+.collection-page__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(15,11,7,0.85), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-12);
+}
+.collection-page__title-wrap { margin-bottom: var(--space-10); }
+.collection-page__title { margin-bottom: var(--space-3); }
+.collection-page__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+.collection-page__count { font-size: var(--text-sm); color: var(--color-text-muted); }
+.collection-sort-select {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+.collection-sort-select:focus { border-color: var(--color-gold); }
+.collection-page__empty { text-align: center; padding: var(--space-20) 0; }
+.collection-page__empty p { color: var(--color-text-muted); margin-bottom: var(--space-6); }
+.pagination { display: flex; align-items: center; justify-content: center; gap: var(--space-6); margin-top: var(--space-12); }
+.pagination__info { color: var(--color-text-muted); font-size: var(--text-sm); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+</style>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

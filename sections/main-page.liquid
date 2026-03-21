@@ -1,0 +1,21 @@
+<section class="page-content section-padding">
+  <div class="container container--narrow">
+    <h1 class="page-content__title section-heading">{{ page.title }}</h1>
+    <div class="page-content__body rte">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+<style>
+.container--narrow { max-width: 800px; }
+.page-content__title { margin-bottom: var(--space-8); }
+</style>
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

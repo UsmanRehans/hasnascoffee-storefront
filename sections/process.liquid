@@ -1,0 +1,119 @@
+<section class="process section-padding process--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      {% if section.settings.eyebrow %}
+        <p class="section-eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      {% if section.settings.heading %}
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+    </div>
+
+    <div class="process__steps">
+      {% for block in section.blocks %}
+        {% if block.type == 'step' %}
+          <div class="process__step" {{ block.shopify_attributes }}>
+            <div class="process__step-number">
+              <span>{{ forloop.index | prepend: '0' }}</span>
+            </div>
+            {% if block.settings.image %}
+              <div class="process__step-image">
+                <img
+                  src="{{ block.settings.image | img_url: '600x' }}"
+                  alt="{{ block.settings.title }}"
+                  loading="lazy"
+                >
+              </div>
+            {% else %}
+              <div class="process__step-image process__step-image--placeholder">
+                {{ 'product-' | append: forloop.index | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+            <h3 class="process__step-title">{{ block.settings.title }}</h3>
+            <p class="process__step-text">{{ block.settings.text }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "How It Works"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From Farm to Your Cup"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Step description goes here."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Source",
+            "text": "We travel to the world's finest growing regions, building lasting relationships with farmers who share our dedication to quality."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Roast",
+            "text": "Small-batch roasting in our facility, tailored to each bean's origin and characteristics to unlock its full potential."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Deliver",
+            "text": "Your order is packaged and shipped within 24 hours of roasting — arriving at peak freshness, ready to brew."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Enjoy",
+            "text": "Brew with your preferred method and savor the complexity, aroma, and character of truly exceptional coffee."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

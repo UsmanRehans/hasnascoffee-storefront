@@ -1,0 +1,338 @@
+<section class="best-sellers section-padding">
+  <div class="container">
+
+    <div class="best-sellers__header">
+      <h2 class="best-sellers__heading">
+        <span class="best-sellers__dash">—</span>Best <strong>Sellers</strong><span class="best-sellers__dash">—</span>
+      </h2>
+      <p class="best-sellers__subheading">
+        Discover our most <strong>popular blends</strong> that are loved by <strong>coffee</strong> enthusiasts <strong>worldwide.</strong>
+      </p>
+    </div>
+
+    <div class="best-sellers__grid">
+      {% assign collection = collections[section.settings.collection] %}
+      {% if collection and collection.products.size > 0 %}
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          <div class="bs-card">
+            <a href="{{ product.url }}" class="bs-card__image-wrap">
+              {% if product.featured_image %}
+                <div class="bs-card__image-circle">
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    width="400"
+                    height="400"
+                    loading="lazy"
+                  >
+                </div>
+              {% else %}
+                <div class="bs-card__image-circle bs-card__image-circle--placeholder">
+                  {{ 'product-1' | placeholder_svg_tag: 'bs-card__placeholder-svg' }}
+                </div>
+              {% endif %}
+            </a>
+            <div class="bs-card__info">
+              <h3 class="bs-card__title">{{ product.title }}</h3>
+              <p class="bs-card__desc">{{ product.description | strip_html | truncate: 100 }}</p>
+              <div class="bs-card__footer">
+                <span class="bs-card__price">
+                  {{ product.price | money }}
+                  {% if product.selected_or_first_available_variant.title != 'Default Title' %}
+                    / {{ product.selected_or_first_available_variant.title }}
+                  {% endif %}
+                </span>
+                <button
+                  class="bs-card__cart-btn"
+                  data-product-id="{{ product.variants.first.id }}"
+                  aria-label="Add {{ product.title }} to cart"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 01-8 0"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% assign placeholder_titles = 'Espresso Blend,House Blend,Cold Brew Concentrate' | split: ',' %}
+        {% assign placeholder_descs = 'Bold, rich, and packed with flavor. Perfect for those who crave an intense coffee experience.,A smooth and balanced blend ideal for every occasion. Light, medium roast with notes of caramel and chocolate.,Refreshing, smooth, and ready-to-drink. Perfect for hot days or a quick pick-me-up.' | split: ',' %}
+        {% assign placeholder_prices = '$15.99 / 12 oz,$12.99 / 12 oz,$18.99 / 16 oz' | split: ',' %}
+        {% for i in (0..2) %}
+          <div class="bs-card">
+            <div class="bs-card__image-wrap">
+              <div class="bs-card__image-circle bs-card__image-circle--placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'bs-card__placeholder-svg' }}
+              </div>
+            </div>
+            <div class="bs-card__info">
+              <h3 class="bs-card__title">{{ placeholder_titles[i] }}</h3>
+              <p class="bs-card__desc">{{ placeholder_descs[i] }}</p>
+              <div class="bs-card__footer">
+                <span class="bs-card__price">{{ placeholder_prices[i] }}</span>
+                <button class="bs-card__cart-btn" aria-label="Add to cart">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 01-8 0"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_view_more %}
+      <a href="{{ collections[section.settings.collection].url | default: '/collections/all' }}" class="bs-view-more" aria-label="View more products">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        View More
+      </a>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+.best-sellers {
+  background: var(--color-bg, #faf7f2);
+}
+
+.best-sellers__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.best-sellers__heading {
+  font-family: var(--font-heading, serif);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--color-text, #2c1a0e);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.best-sellers__dash {
+  color: var(--color-text, #2c1a0e);
+  font-weight: 300;
+}
+
+.best-sellers__subheading {
+  color: var(--color-text-muted, #6b4c35);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.best-sellers__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  position: relative;
+}
+
+.bs-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 16px rgba(44,26,14,0.07);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.bs-card:hover {
+  box-shadow: 0 8px 32px rgba(44,26,14,0.14);
+  transform: translateY(-4px);
+}
+
+.bs-card__image-wrap {
+  display: block;
+  padding: 2rem 2rem 0;
+  text-decoration: none;
+}
+
+.bs-card__image-circle {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f0ebe4;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bs-card__image-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bs-card__placeholder-svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.3;
+}
+
+.bs-card__info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.bs-card__title {
+  font-family: var(--font-heading, serif);
+  font-size: 1.25rem;
+  color: var(--color-text, #2c1a0e);
+  margin-bottom: 0.5rem;
+}
+
+.bs-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #6b4c35);
+  line-height: 1.5;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.bs-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bs-card__price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #2c1a0e);
+}
+
+.bs-card__cart-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-accent, #c8902a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bs-card__cart-btn:hover {
+  background: var(--color-text, #2c1a0e);
+  transform: scale(1.08);
+}
+
+.bs-view-more {
+  position: absolute;
+  right: -4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: var(--color-accent, #c8902a);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(200,144,42,0.4);
+  transition: transform 0.2s ease;
+}
+
+.bs-view-more:hover {
+  transform: translateY(-50%) scale(1.08);
+}
+
+.best-sellers__grid {
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .best-sellers__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bs-view-more {
+    position: static;
+    transform: none;
+    margin: 2rem auto 0;
+    display: flex;
+  }
+}
+
+@media (max-width: 600px) {
+  .best-sellers__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+document.querySelectorAll('.bs-card__cart-btn[data-product-id]').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const id = btn.dataset.productId;
+    try {
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, quantity: 1 })
+      });
+      btn.style.background = '#2c1a0e';
+      setTimeout(() => btn.style.background = '', 1000);
+    } catch(e) { console.error(e); }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Best Sellers",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Select a collection tagged 'best-seller'"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Products to show",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_more",
+      "label": "Show 'View More' button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Sellers"
+    }
+  ]
+}
+{% endschema %}

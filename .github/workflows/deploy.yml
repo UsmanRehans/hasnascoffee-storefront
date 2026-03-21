@@ -20,40 +20,39 @@ jobs:
   deploy:
     name: Deploy to Shopify
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'test' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set theme ID
-        id: set_theme
-        run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "theme_id=${{ secrets.SHOPIFY_PROD_THEME_ID }}" >> "$GITHUB_OUTPUT"
-            echo "env_name=production" >> "$GITHUB_OUTPUT"
-          else
-            echo "theme_id=${{ secrets.SHOPIFY_TEST_THEME_ID }}" >> "$GITHUB_OUTPUT"
-            echo "env_name=test" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli @shopify/theme
 
-      - name: Deploy theme
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
         env:
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_THEME_TOKEN }}
         run: |
           shopify theme push \
             --store y0ngah-e1.myshopify.com \
-            --theme ${{ steps.set_theme.outputs.theme_id }} \
+            --theme "${{ secrets.SHOPIFY_PROD_THEME_ID }}" \
+            --allow-live \
+            --no-color
+
+      - name: Deploy to test
+        if: github.ref != 'refs/heads/main'
+        env:
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_THEME_TOKEN }}
+        run: |
+          shopify theme push \
+            --store y0ngah-e1.myshopify.com \
+            --theme "${{ secrets.SHOPIFY_TEST_THEME_ID }}" \
             --allow-live \
             --no-color
 
       - name: Summary
         run: |
           echo "## Deployment Complete" >> $GITHUB_STEP_SUMMARY
-          echo "- **Environment:** ${{ steps.set_theme.outputs.env_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Theme ID:** ${{ steps.set_theme.outputs.theme_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Store:** [y0ngah-e1.myshopify.com](https://y0ngah-e1.myshopify.com)" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY

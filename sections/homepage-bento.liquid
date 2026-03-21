@@ -1,0 +1,153 @@
+<section class="hp-bento">
+  <div class="container">
+    <div class="hp-bento__grid">
+
+      {%- comment -%} LEFT — Featured Menu {%- endcomment -%}
+      <div class="hp-bento__card hp-bento__menu">
+        <p class="hp-bento__label">{{ section.settings.menu_eyebrow | default: 'Featured Menu' }}</p>
+        <h2 class="hp-bento__heading">{{ section.settings.menu_heading | default: 'Our Drinks' }}</h2>
+        <p class="hp-bento__text">{{ section.settings.menu_text | default: 'Ethiopian single-origins and house blends, brewed to order.' }}</p>
+
+        <div class="hp-bento__menu-items">
+          {% assign menu_col = collections[section.settings.menu_collection] %}
+          {% if menu_col and menu_col.products.size > 0 %}
+            {% for product in menu_col.products limit: 3 %}
+              <a href="{{ product.url }}" class="hp-bento__menu-item">
+                <div class="hp-bento__menu-img">
+                  {% if product.featured_image %}
+                    <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.featured_image.alt | escape }}" width="150" height="150" loading="lazy">
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'hp-bento__placeholder' }}
+                  {% endif %}
+                </div>
+                <p class="hp-bento__menu-name">{{ product.title }}</p>
+              </a>
+            {% endfor %}
+          {% else %}
+            {% assign demo_names = 'Yirgacheffe Espresso,Honey Cardamom Latte,Cold Brew Harar' | split: ',' %}
+            {% for name in demo_names %}
+              <div class="hp-bento__menu-item">
+                <div class="hp-bento__menu-img hp-bento__menu-img--placeholder">
+                  {{ 'product-1' | placeholder_svg_tag: 'hp-bento__placeholder' }}
+                </div>
+                <p class="hp-bento__menu-name">{{ name }}</p>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        {% if section.settings.menu_link_label %}
+          <a href="{{ section.settings.menu_link | default: '/collections/all' }}" class="hp-bento__link">
+            {{ section.settings.menu_link_label }}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        {% endif %}
+      </div>
+
+      {%- comment -%} MIDDLE — Spotlight product {%- endcomment -%}
+      <div class="hp-bento__card hp-bento__spotlight">
+        {% assign spot_col = collections[section.settings.spotlight_collection] %}
+        {% if spot_col and spot_col.products.first %}
+          {% assign spot = spot_col.products.first %}
+          <a href="{{ spot.url }}" class="hp-bento__spotlight-img-wrap">
+            {% if spot.featured_image %}
+              <img src="{{ spot.featured_image | image_url: width: 600 }}" alt="{{ spot.featured_image.alt | escape }}" width="600" height="600" loading="lazy">
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'hp-bento__placeholder' }}
+            {% endif %}
+          </a>
+          <div class="hp-bento__spotlight-info">
+            <p class="hp-bento__label">House Favourite</p>
+            <h3 class="hp-bento__spotlight-title">{{ spot.title }}</h3>
+            <p class="hp-bento__text">{{ spot.description | strip_html | truncate: 100 }}</p>
+            <span class="hp-bento__spotlight-price">{{ spot.price | money }} USD</span>
+          </div>
+        {% else %}
+          <div class="hp-bento__spotlight-img-wrap hp-bento__spotlight-img-wrap--placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'hp-bento__placeholder' }}
+          </div>
+          <div class="hp-bento__spotlight-info">
+            <p class="hp-bento__label">House Favourite</p>
+            <h3 class="hp-bento__spotlight-title">{{ section.settings.spotlight_title | default: 'Honey Cardamom Latte' }}</h3>
+            <p class="hp-bento__text">{{ section.settings.spotlight_text | default: 'Yirgacheffe espresso, oat milk, Ethiopian wildflower honey and fresh cardamom. Sweet, aromatic and comforting.' }}</p>
+            <span class="hp-bento__spotlight-price">$6.50 USD</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {%- comment -%} RIGHT — About {%- endcomment -%}
+      <div class="hp-bento__card hp-bento__about">
+        <div class="hp-bento__about-imgs">
+          {% for block in section.blocks %}
+            {% if block.type == 'about_image' %}
+              <div class="hp-bento__about-img" {{ block.shopify_attributes }}>
+                {% if block.settings.image %}
+                  <img src="{{ block.settings.image | img_url: '400x' }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy">
+                {% else %}
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'hp-bento__placeholder' }}
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+          {% unless section.blocks.size > 0 %}
+            {% for i in (1..3) %}
+              <div class="hp-bento__about-img">
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'hp-bento__placeholder' }}
+              </div>
+            {% endfor %}
+          {% endunless %}
+        </div>
+
+        <div class="hp-bento__about-content">
+          <p class="hp-bento__label">{{ section.settings.about_eyebrow | default: 'About our café' }}</p>
+          <p class="hp-bento__text">{{ section.settings.about_text | default: 'Hasna\'s Coffee brings the Ethiopian coffee ceremony to Austin. Every cup tells the story of its origin — roasted with care, served with love.' }}</p>
+          {% if section.settings.about_link_label %}
+            <a href="{{ section.settings.about_link | default: '/pages/about' }}" class="hp-bento__link">
+              {{ section.settings.about_link_label }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Homepage Bento",
+  "settings": [
+    { "type": "text", "id": "menu_eyebrow", "label": "Menu eyebrow", "default": "Featured Menu" },
+    { "type": "text", "id": "menu_heading", "label": "Menu heading", "default": "Our Drinks" },
+    { "type": "textarea", "id": "menu_text", "label": "Menu description", "default": "Ethiopian single-origins and house blends, brewed to order." },
+    { "type": "collection", "id": "menu_collection", "label": "Menu collection" },
+    { "type": "text", "id": "menu_link_label", "label": "Menu link label", "default": "View full menu" },
+    { "type": "url", "id": "menu_link", "label": "Menu link" },
+    { "type": "collection", "id": "spotlight_collection", "label": "Spotlight collection (first product shown)" },
+    { "type": "text", "id": "spotlight_title", "label": "Spotlight fallback title", "default": "Honey Cardamom Latte" },
+    { "type": "textarea", "id": "spotlight_text", "label": "Spotlight fallback description" },
+    { "type": "text", "id": "about_eyebrow", "label": "About eyebrow", "default": "About our café" },
+    { "type": "textarea", "id": "about_text", "label": "About text", "default": "Hasna's Coffee brings the Ethiopian coffee ceremony to Austin. Every cup tells the story of its origin." },
+    { "type": "text", "id": "about_link_label", "label": "About link label", "default": "Learn more" },
+    { "type": "url", "id": "about_link", "label": "About link" }
+  ],
+  "blocks": [
+    {
+      "type": "about_image",
+      "name": "About image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Homepage Bento",
+    "blocks": [
+      { "type": "about_image" },
+      { "type": "about_image" },
+      { "type": "about_image" }
+    ]
+  }]
+}
+{% endschema %}

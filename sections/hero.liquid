@@ -1,72 +1,43 @@
-<section class="hero" id="Hero">
-  <div class="hero__background">
+<section class="hero-card" id="Hero">
+  <div class="hero-card__inner">
     {% if section.settings.background_image %}
       <img
         src="{{ section.settings.background_image | img_url: '2000x' }}"
         srcset="{{ section.settings.background_image | img_url: '800x' }} 800w,
-                {{ section.settings.background_image | img_url: '1200x' }} 1200w,
+                {{ section.settings.background_image | img_url: '1400x' }} 1400w,
                 {{ section.settings.background_image | img_url: '2000x' }} 2000w"
-        sizes="100vw"
+        sizes="(max-width: 900px) 100vw, 90vw"
         alt="{{ section.settings.background_image.alt | escape }}"
         loading="eager"
         fetchpriority="high"
-        class="hero__bg-image"
+        class="hero-card__image"
       >
+    {% else %}
+      <div class="hero-card__image hero-card__image--placeholder"></div>
     {% endif %}
-    <div class="hero__overlay"></div>
-  </div>
 
-  <div class="hero__content container">
-    <div class="hero__text">
+    <div class="hero-card__overlay"></div>
+
+    <div class="hero-card__content">
       {% if section.settings.eyebrow %}
-        <p class="hero__eyebrow">{{ section.settings.eyebrow }}</p>
+        <p class="hero-card__eyebrow">{{ section.settings.eyebrow }}</p>
       {% endif %}
 
       {% if section.settings.heading %}
-        <h1 class="hero__heading">{{ section.settings.heading }}</h1>
+        <h1 class="hero-card__heading">{{ section.settings.heading }}</h1>
       {% endif %}
 
-      {% if section.settings.subheading %}
-        <p class="hero__subheading">{{ section.settings.subheading }}</p>
-      {% endif %}
-
-      <div class="hero__cta-group">
+      <div class="hero-card__actions">
         {% if section.settings.button_label %}
-          <a href="{{ section.settings.button_link }}" class="btn btn--primary btn--large">
+          <a href="{{ section.settings.button_link }}" class="hero-card__btn">
             {{ section.settings.button_label }}
           </a>
         {% endif %}
         {% if section.settings.secondary_button_label %}
-          <a href="{{ section.settings.secondary_button_link }}" class="btn btn--outline btn--large">
+          <a href="{{ section.settings.secondary_button_link }}" class="hero-card__btn hero-card__btn--ghost">
             {{ section.settings.secondary_button_label }}
           </a>
         {% endif %}
-      </div>
-    </div>
-
-    <div class="hero__scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </div>
-
-  <div class="hero__stats">
-    <div class="container">
-      <div class="hero__stats-grid">
-        <div class="stat">
-          <span class="stat__number">{{ section.settings.stat_1_number }}</span>
-          <span class="stat__label">{{ section.settings.stat_1_label }}</span>
-        </div>
-        <div class="stat__divider"></div>
-        <div class="stat">
-          <span class="stat__number">{{ section.settings.stat_2_number }}</span>
-          <span class="stat__label">{{ section.settings.stat_2_label }}</span>
-        </div>
-        <div class="stat__divider"></div>
-        <div class="stat">
-          <span class="stat__number">{{ section.settings.stat_3_number }}</span>
-          <span class="stat__label">{{ section.settings.stat_3_label }}</span>
-        </div>
       </div>
     </div>
   </div>
@@ -77,92 +48,14 @@
   "name": "Hero",
   "tag": "section",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Background image"
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow text",
-      "default": "Premium Single Origin"
-    },
-    {
-      "type": "textarea",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Every Sip Tells a Story"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Discover exceptional coffees sourced from the world's finest growing regions, roasted with care and delivered to your door."
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Primary button label",
-      "default": "Shop Coffee"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Primary button link"
-    },
-    {
-      "type": "text",
-      "id": "secondary_button_label",
-      "label": "Secondary button label",
-      "default": "Our Story"
-    },
-    {
-      "type": "url",
-      "id": "secondary_button_link",
-      "label": "Secondary button link"
-    },
-    {
-      "type": "text",
-      "id": "stat_1_number",
-      "label": "Stat 1 number",
-      "default": "15+"
-    },
-    {
-      "type": "text",
-      "id": "stat_1_label",
-      "label": "Stat 1 label",
-      "default": "Origins"
-    },
-    {
-      "type": "text",
-      "id": "stat_2_number",
-      "label": "Stat 2 number",
-      "default": "50K+"
-    },
-    {
-      "type": "text",
-      "id": "stat_2_label",
-      "label": "Stat 2 label",
-      "default": "Happy Customers"
-    },
-    {
-      "type": "text",
-      "id": "stat_3_number",
-      "label": "Stat 3 number",
-      "default": "100%"
-    },
-    {
-      "type": "text",
-      "id": "stat_3_label",
-      "label": "Stat 3 label",
-      "default": "Ethically Sourced"
-    }
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Roasted in Austin · Sourced from Ethiopia" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Brewed Fresh,\nServed Warm." },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop Coffee" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_button_label", "label": "Secondary button" },
+    { "type": "url", "id": "secondary_button_link", "label": "Secondary button link" }
   ],
-  "presets": [
-    {
-      "name": "Hero"
-    }
-  ]
+  "presets": [{ "name": "Hero" }]
 }
 {% endschema %}

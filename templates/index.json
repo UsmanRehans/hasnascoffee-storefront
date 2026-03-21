@@ -4,6 +4,24 @@
       "type": "hero",
       "settings": {}
     },
+    "homepage-bento": {
+      "type": "homepage-bento",
+      "settings": {
+        "menu_eyebrow": "Featured Menu",
+        "menu_heading": "Our Drinks",
+        "menu_text": "Ethiopian single-origins and house blends, brewed to order.",
+        "menu_link_label": "View full menu",
+        "about_eyebrow": "About our café",
+        "about_text": "Hasna's Coffee brings the Ethiopian coffee ceremony to Austin. Every cup tells the story of its origin — roasted with care, served with love.",
+        "about_link_label": "Learn more"
+      },
+      "blocks": {
+        "img-1": { "type": "about_image", "settings": {} },
+        "img-2": { "type": "about_image", "settings": {} },
+        "img-3": { "type": "about_image", "settings": {} }
+      },
+      "blocks_order": ["img-1", "img-2", "img-3"]
+    },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {}
@@ -115,6 +133,7 @@
   },
   "order": [
     "hero",
+    "homepage-bento",
     "featured-collection",
     "about",
     "process",

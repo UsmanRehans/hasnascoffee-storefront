@@ -9,6 +9,7 @@ jobs:
   deploy:
     name: Push to Production Theme
     runs-on: ubuntu-latest
+    environment: prod
 
     steps:
       - name: Checkout code

@@ -1,84 +1,276 @@
 {% comment %}
-  Product Card Snippet
+  Product Card — Bento style with floating image
   Usage: {% render 'product-card', product: product %}
 {% endcomment %}
 
-<div class="product-card" data-product-id="{{ product.id }}">
-  <a href="{{ product.url }}" class="product-card__link" tabindex="-1" aria-hidden="true">
-    <div class="product-card__image-wrap">
-      {% if product.featured_image %}
+{%- assign first_variant = product.variants.first -%}
+
+<div class="hc-pc" data-product-id="{{ product.id }}">
+
+  {%- comment %} — Badge — {% endcomment %}
+  {%- if product.compare_at_price > product.price -%}
+    <span class="hc-pc__badge hc-pc__badge--sale">Sale</span>
+  {%- elsif product.tags contains 'new' -%}
+    <span class="hc-pc__badge hc-pc__badge--new">New</span>
+  {%- elsif product.tags contains 'hot' -%}
+    <span class="hc-pc__badge hc-pc__badge--hot">Hot!</span>
+  {%- endif -%}
+
+  {%- comment %} — Info button with description tooltip — {% endcomment %}
+  <div class="hc-pc__info-wrap">
+    <button class="hc-pc__info-btn" aria-label="Product info" type="button">&#9432;</button>
+    {%- if product.description != blank -%}
+      <div class="hc-pc__tooltip">
+        {{ product.description | strip_html | truncate: 120 }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment %} — Floating image — {% endcomment %}
+  <a href="{{ product.url }}" class="hc-pc__img-link" tabindex="-1" aria-hidden="true">
+    <div class="hc-pc__img-wrap">
+      {%- if product.featured_image -%}
         <img
-          src="{{ product.featured_image | img_url: '600x600', crop: 'center' }}"
+          src="{{ product.featured_image | img_url: '500x500' }}"
           alt="{{ product.featured_image.alt | escape | default: product.title }}"
           loading="lazy"
-          class="product-card__image product-card__image--primary"
-          width="600"
-          height="600"
+          class="hc-pc__img"
+          width="500"
+          height="500"
         >
-        {% if product.images[1] %}
-          <img
-            src="{{ product.images[1] | img_url: '600x600', crop: 'center' }}"
-            alt="{{ product.images[1].alt | escape | default: product.title }}"
-            loading="lazy"
-            class="product-card__image product-card__image--secondary"
-            width="600"
-            height="600"
-          >
-        {% endif %}
-      {% else %}
-        <div class="product-card__no-image">
-          {{ product.title | slice: 0 }}
-        </div>
-      {% endif %}
-
-      {% if product.compare_at_price > product.price %}
-        <span class="product-card__badge product-card__badge--sale">Sale</span>
-      {% elsif product.tags contains 'new' %}
-        <span class="product-card__badge product-card__badge--new">New</span>
-      {% endif %}
-
-      <div class="product-card__quick-add">
-        {% if product.variants.size == 1 and product.available %}
-          <button
-            class="btn btn--primary btn--small product-card__atc"
-            data-product-id="{{ product.variants.first.id }}"
-            aria-label="Add {{ product.title }} to cart"
-          >
-            Add to Cart
-          </button>
-        {% elsif product.available %}
-          <a href="{{ product.url }}" class="btn btn--primary btn--small">
-            Select Options
-          </a>
-        {% else %}
-          <span class="product-card__sold-out">Sold Out</span>
-        {% endif %}
-      </div>
+      {%- else -%}
+        <div class="hc-pc__no-img">{{ product.title | slice: 0 }}</div>
+      {%- endif -%}
     </div>
   </a>
 
-  <div class="product-card__info">
-    {% if product.metafields.custom.origin %}
-      <p class="product-card__origin">{{ product.metafields.custom.origin }}</p>
-    {% elsif product.tags contains 'origin:' %}
-      {%- assign origin_tag = product.tags | split: ',' | map: 'strip' -%}
-      {%- for tag in origin_tag -%}
-        {%- if tag contains 'origin:' -%}
-          <p class="product-card__origin">{{ tag | remove: 'origin:' | strip }}</p>
+  {%- comment %} — Card body — {% endcomment %}
+  <div class="hc-pc__body">
+    <div class="hc-pc__meta-row">
+      <span class="hc-pc__price">{{ product.price | money }}</span>
+      {%- if first_variant.weight > 0 -%}
+        <span class="hc-pc__weight">{{ first_variant.weight | weight_with_unit }}</span>
+      {%- elsif product.type != blank -%}
+        <span class="hc-pc__weight">{{ product.type }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="hc-pc__name-row">
+      <h3 class="hc-pc__title">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h3>
+
+      {%- if product.available -%}
+        {%- if product.variants.size == 1 -%}
+          <button
+            class="hc-pc__add product-card__atc"
+            data-product-id="{{ first_variant.id }}"
+            aria-label="Add {{ product.title | escape }} to cart"
+            type="button"
+          >Add</button>
+        {%- else -%}
+          <a href="{{ product.url }}" class="hc-pc__add" aria-label="Choose options for {{ product.title | escape }}">
+            Pick
+          </a>
         {%- endif -%}
-      {%- endfor -%}
-    {% endif %}
-
-    <h3 class="product-card__title">
-      <a href="{{ product.url }}">{{ product.title }}</a>
-    </h3>
-
-    <div class="product-card__price-wrap">
-      <span class="product-card__price">{{ product.price | money }}</span>
-      {% if product.compare_at_price > product.price %}
-        <span class="product-card__compare-price">{{ product.compare_at_price | money }}</span>
-        <span class="product-card__savings">Save {{ product.price | minus: product.compare_at_price | abs | money }}</span>
-      {% endif %}
+      {%- else -%}
+        <span class="hc-pc__sold-out">Sold Out</span>
+      {%- endif -%}
     </div>
   </div>
+
 </div>
+
+<style>
+/* ——————————————————————————————
+   Bento Product Card
+—————————————————————————————— */
+.hc-pc {
+  background: var(--color-text); /* espresso dark */
+  border-radius: 20px;
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: visible;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hc-pc:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(26,12,5,0.22);
+}
+
+/* Badge */
+.hc-pc__badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  z-index: 3;
+  line-height: 1.1;
+  text-align: center;
+}
+.hc-pc__badge--new  { background: var(--color-gold); color: var(--color-text); }
+.hc-pc__badge--sale { background: var(--color-terracotta); color: #fff; }
+.hc-pc__badge--hot  { background: var(--color-gold-light); color: var(--color-text); }
+
+/* Info tooltip */
+.hc-pc__info-wrap {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+}
+.hc-pc__info-btn {
+  background: none;
+  border: 1.5px solid rgba(248,244,238,0.3);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: rgba(248,244,238,0.55);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  line-height: 1;
+}
+.hc-pc__info-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+.hc-pc__tooltip {
+  display: none;
+  position: absolute;
+  top: 36px;
+  right: 0;
+  width: 210px;
+  background: rgba(26,12,5,0.93);
+  border: 1px solid rgba(184,134,11,0.3);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #F8F4EE;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.hc-pc__info-wrap:hover .hc-pc__tooltip { display: block; }
+
+/* Floating image */
+.hc-pc__img-link { display: block; }
+.hc-pc__img-wrap {
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.hc-pc__img {
+  max-height: 230px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  transform: translateY(-24px);
+  filter: drop-shadow(0 20px 32px rgba(0,0,0,0.55));
+  transition: transform 0.3s ease;
+  display: block;
+}
+.hc-pc:hover .hc-pc__img {
+  transform: translateY(-32px);
+}
+.hc-pc__no-img {
+  width: 120px;
+  height: 120px;
+  background: rgba(248,244,238,0.08);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--color-gold);
+  transform: translateY(-24px);
+}
+
+/* Card body */
+.hc-pc__body { margin-top: auto; }
+
+.hc-pc__meta-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.hc-pc__price {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #F8F4EE;
+}
+.hc-pc__weight {
+  font-size: 0.78rem;
+  color: rgba(248,244,238,0.45);
+  font-family: var(--font-body);
+}
+
+.hc-pc__name-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+.hc-pc__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+  flex: 1;
+}
+.hc-pc__title a {
+  color: #F8F4EE;
+  text-decoration: none;
+}
+.hc-pc__title a:hover { color: var(--color-gold); }
+
+.hc-pc__add {
+  flex-shrink: 0;
+  background: var(--color-gold);
+  color: var(--color-text);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+.hc-pc__add:hover {
+  background: var(--color-gold-light);
+  transform: scale(1.05);
+}
+.hc-pc__sold-out {
+  font-size: 0.75rem;
+  color: rgba(248,244,238,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+</style>

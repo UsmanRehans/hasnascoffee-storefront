@@ -1,94 +1,122 @@
-<section class="collection-page section-padding">
+<section class="hc-coll">
   <div class="container">
 
-    <div class="collection-page__header">
-      {% if collection.image %}
-        <div class="collection-page__hero">
-          <img src="{{ collection.image | img_url: '2000x400', crop: 'center' }}" alt="{{ collection.title }}" loading="eager">
-          <div class="collection-page__hero-overlay">
-            <h1 class="collection-page__title">{{ collection.title }}</h1>
-            {% if collection.description != blank %}
-              <p class="collection-page__description">{{ collection.description }}</p>
-            {% endif %}
+    {%- comment %} ——— Page header ——— {% endcomment %}
+    <div class="hc-coll__header">
+      {%- if collection.image -%}
+        <div class="hc-coll__hero">
+          <img src="{{ collection.image | img_url: '2000x500', crop: 'center' }}" alt="{{ collection.title }}" loading="eager">
+          <div class="hc-coll__hero-overlay">
+            <h1 class="hc-coll__hero-title">{{ collection.title }}</h1>
+            {%- if collection.description != blank -%}
+              <p class="hc-coll__hero-desc">{{ collection.description }}</p>
+            {%- endif -%}
           </div>
         </div>
-      {% else %}
-        <div class="collection-page__title-wrap">
-          <h1 class="collection-page__title section-heading">{{ collection.title }}</h1>
-          {% if collection.description != blank %}
-            <p class="collection-page__description section-subheading">{{ collection.description }}</p>
-          {% endif %}
+      {%- else -%}
+        <div class="hc-coll__title-block">
+          <h1 class="hc-coll__title">{{ collection.title }}</h1>
+          {%- if collection.description != blank -%}
+            <p class="hc-coll__desc">{{ collection.description }}</p>
+          {%- endif -%}
         </div>
-      {% endif %}
-    </div>
+      {%- endif -%}
 
-    <div class="collection-page__toolbar">
-      <p class="collection-page__count">{{ collection.products_count }} products</p>
-      <div class="collection-page__sort">
-        <label for="SortBy" class="sr-only">Sort by</label>
-        <select id="SortBy" class="collection-sort-select" onchange="window.location.href = window.location.pathname + '?sort_by=' + this.value">
-          <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>Featured</option>
-          <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-          <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>A–Z</option>
-          <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>Z–A</option>
-          <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low–High</option>
-          <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High–Low</option>
-          <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
-        </select>
+      <div class="hc-coll__toolbar">
+        <span class="hc-coll__count">{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</span>
+        <div class="hc-coll__sort-wrap">
+          <label for="HcSortBy" class="sr-only">Sort by</label>
+          <select id="HcSortBy" class="hc-coll__sort" onchange="window.location.href = window.location.pathname + '?sort_by=' + this.value">
+            <option value="manual"             {% if collection.sort_by == 'manual'             %}selected{% endif %}>Featured</option>
+            <option value="best-selling"        {% if collection.sort_by == 'best-selling'        %}selected{% endif %}>Best Selling</option>
+            <option value="title-ascending"     {% if collection.sort_by == 'title-ascending'     %}selected{% endif %}>A–Z</option>
+            <option value="title-descending"    {% if collection.sort_by == 'title-descending'    %}selected{% endif %}>Z–A</option>
+            <option value="price-ascending"     {% if collection.sort_by == 'price-ascending'     %}selected{% endif %}>Price: Low–High</option>
+            <option value="price-descending"    {% if collection.sort_by == 'price-descending'    %}selected{% endif %}>Price: High–Low</option>
+            <option value="created-descending"  {% if collection.sort_by == 'created-descending'  %}selected{% endif %}>Newest</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    {% if collection.products.size > 0 %}
-      <div class="products-grid">
-        {% for product in collection.products %}
-          {% render 'product-card', product: product %}
-        {% endfor %}
-      </div>
+    {%- comment %} ——— Product grid ——— {% endcomment %}
+    {%- if collection.products.size > 0 -%}
+      {%- paginate collection.products by 16 -%}
+        <div class="hc-coll__grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
 
-      {% if paginate.pages > 1 %}
-        {% paginate collection.products by 12 %}
-          <div class="pagination">
-            {% if paginate.previous %}
-              <a href="{{ paginate.previous.url }}" class="btn btn--outline">← Previous</a>
-            {% endif %}
-            <span class="pagination__info">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
-            {% if paginate.next %}
-              <a href="{{ paginate.next.url }}" class="btn btn--outline">Next →</a>
-            {% endif %}
+        {%- if paginate.pages > 1 -%}
+          <div class="hc-coll__pagination">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="hc-coll__pag-btn">← Previous</a>
+            {%- endif -%}
+            <span class="hc-coll__pag-info">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="hc-coll__pag-btn">Next →</a>
+            {%- endif -%}
           </div>
-        {% endpaginate %}
-      {% endif %}
-    {% else %}
-      <div class="collection-page__empty">
-        <p>No products found in this collection.</p>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- else -%}
+      <div class="hc-coll__empty">
+        <p>No products found in this collection yet.</p>
         <a href="{{ routes.root_url }}" class="btn btn--primary">Back to Home</a>
       </div>
-    {% endif %}
+    {%- endif -%}
 
   </div>
 </section>
 
 <style>
-.collection-page__hero {
+/* ——————————————————————————————
+   Collection Page
+—————————————————————————————— */
+.hc-coll {
+  padding: var(--space-12) 0 var(--space-20);
+}
+
+/* Hero banner */
+.hc-coll__hero {
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
   margin-bottom: var(--space-10);
   aspect-ratio: 5/1;
+  min-height: 160px;
 }
-.collection-page__hero img { width: 100%; height: 100%; object-fit: cover; }
-.collection-page__hero-overlay {
+.hc-coll__hero img { width: 100%; height: 100%; object-fit: cover; }
+.hc-coll__hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(15,11,7,0.85), transparent);
+  background: linear-gradient(to right, rgba(26,12,5,0.88), rgba(26,12,5,0.2));
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: var(--space-12);
 }
-.collection-page__title-wrap { margin-bottom: var(--space-10); }
-.collection-page__title { margin-bottom: var(--space-3); }
-.collection-page__toolbar {
+.hc-coll__hero-title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: #F8F4EE;
+  margin: 0 0 var(--space-2);
+}
+.hc-coll__hero-desc { color: rgba(248,244,238,0.75); font-size: var(--text-lg); margin: 0; }
+
+/* No-image title */
+.hc-coll__title-block { margin-bottom: var(--space-8); }
+.hc-coll__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: var(--color-text);
+  margin: 0 0 var(--space-3);
+}
+.hc-coll__desc { color: var(--color-text-secondary); font-size: var(--text-lg); }
+
+/* Toolbar */
+.hc-coll__toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -96,23 +124,64 @@
   padding-bottom: var(--space-5);
   border-bottom: 1px solid var(--color-border);
 }
-.collection-page__count { font-size: var(--text-sm); color: var(--color-text-muted); }
-.collection-sort-select {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-  padding: var(--space-2) var(--space-4);
+.hc-coll__count { font-size: var(--text-sm); color: var(--color-text-muted); }
+.hc-coll__sort {
+  background: var(--color-text);
+  border: 1px solid rgba(248,244,238,0.12);
+  color: #F8F4EE;
+  padding: var(--space-2) var(--space-5) var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
-  outline: none;
   cursor: pointer;
-  transition: border-color var(--transition-fast);
+  outline: none;
+  transition: border-color 0.2s;
 }
-.collection-sort-select:focus { border-color: var(--color-gold); }
-.collection-page__empty { text-align: center; padding: var(--space-20) 0; }
-.collection-page__empty p { color: var(--color-text-muted); margin-bottom: var(--space-6); }
-.pagination { display: flex; align-items: center; justify-content: center; gap: var(--space-6); margin-top: var(--space-12); }
-.pagination__info { color: var(--color-text-muted); font-size: var(--text-sm); }
+.hc-coll__sort:focus { border-color: var(--color-gold); }
+.hc-coll__sort option { background: var(--color-text); color: #F8F4EE; }
+
+/* Grid — matches the bento reference: 4-up on large, 2-up on mobile */
+.hc-coll__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-top: 40px; /* room for floating images that overflow upward */
+}
+
+@media (max-width: 1100px) {
+  .hc-coll__grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .hc-coll__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 460px) {
+  .hc-coll__grid { grid-template-columns: 1fr; }
+}
+
+/* Pagination */
+.hc-coll__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-16);
+}
+.hc-coll__pag-btn {
+  background: var(--color-text);
+  color: #F8F4EE;
+  padding: 10px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.hc-coll__pag-btn:hover { background: var(--color-gold); color: var(--color-text); }
+.hc-coll__pag-info { color: var(--color-text-muted); font-size: var(--text-sm); }
+
+/* Empty */
+.hc-coll__empty { text-align: center; padding: var(--space-20) 0; }
+.hc-coll__empty p { color: var(--color-text-muted); margin-bottom: var(--space-6); font-size: var(--text-lg); }
+
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 </style>
 

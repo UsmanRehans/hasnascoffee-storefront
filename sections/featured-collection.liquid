@@ -22,7 +22,7 @@
 
     {% assign collection = collections[section.settings.collection] %}
     {% if collection %}
-      <div class="products-grid" id="FeaturedProducts">
+      <div class="hc-coll__grid hc-feat-grid" id="FeaturedProducts">
         {% for product in collection.products limit: section.settings.products_to_show %}
           {% render 'product-card', product: product %}
         {% endfor %}
@@ -39,17 +39,10 @@
         </div>
       {% endif %}
     {% else %}
-      <div class="products-grid">
+      <div class="hc-coll__grid hc-feat-grid">
         {% for i in (1..4) %}
-          <div class="product-card product-card--placeholder">
-            <div class="product-card__image-wrap">
-              {{ 'product-' | append: i | placeholder_svg_tag: 'product-card__placeholder-svg' }}
-            </div>
-            <div class="product-card__info">
-              <h3 class="product-card__title">Sample Coffee {{ i }}</h3>
-              <p class="product-card__origin">Ethiopia · Light Roast</p>
-              <p class="product-card__price">$18.00</p>
-            </div>
+          <div class="hc-pc" style="min-height:280px; display:flex; align-items:center; justify-content:center;">
+            <span style="color:rgba(248,244,238,0.3); font-family:var(--font-display); font-size:1.1rem;">Add products in Shopify Admin</span>
           </div>
         {% endfor %}
       </div>
@@ -57,6 +50,18 @@
 
   </div>
 </section>
+
+<style>
+.hc-coll__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-top: 40px;
+}
+@media (max-width: 1100px) { .hc-coll__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px)  { .hc-coll__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+@media (max-width: 460px)  { .hc-coll__grid { grid-template-columns: 1fr; } }
+</style>
 
 {% schema %}
 {

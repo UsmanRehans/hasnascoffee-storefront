@@ -4,69 +4,46 @@
       <div class="footer__grid">
 
         <div class="footer__brand">
-          {% if section.settings.logo %}
-            <img
-              src="{{ section.settings.logo | img_url: '200x' }}"
-              alt="{{ shop.name }}"
-              class="footer__logo"
-              loading="lazy"
-            >
-          {% else %}
-            <p class="footer__logo-text">{{ shop.name }}</p>
-          {% endif %}
-          {% if section.settings.tagline %}
-            <p class="footer__tagline">{{ section.settings.tagline }}</p>
-          {% endif %}
+          <a href="{{ routes.root_url }}" class="footer__logo-wrap">
+            <img src="{{ 'Hasna-Logo-No-Text.png' | asset_url }}" alt="{{ shop.name }}" class="footer__logo-icon" loading="lazy">
+            <img src="{{ 'Hasna-Logo-Text.png' | asset_url }}" alt="{{ shop.name }}" class="footer__logo-text-img" loading="lazy">
+          </a>
+          <p class="footer__tagline">{{ section.settings.tagline | default: 'Ethiopian coffee, roasted in Austin. Sourced with love, served with purpose.' }}</p>
 
           <div class="footer__social">
-            {% if section.settings.instagram_url != blank %}
-              <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                </svg>
-              </a>
-            {% endif %}
-            {% if section.settings.facebook_url != blank %}
-              <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                </svg>
-              </a>
-            {% endif %}
-            {% if section.settings.tiktok_url != blank %}
-              <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener" aria-label="TikTok">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
-                </svg>
-              </a>
-            {% endif %}
+            <a href="https://www.instagram.com/hasnasethiopiancoffeehouse" target="_blank" rel="noopener" aria-label="Follow us on Instagram" class="footer__social-link">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+              <span>@hasnasethiopiancoffeehouse</span>
+            </a>
           </div>
         </div>
 
-        {% for block in section.blocks %}
-          {% if block.type == 'link_list' %}
-            <div class="footer__column" {{ block.shopify_attributes }}>
-              <h4 class="footer__column-heading">{{ block.settings.heading }}</h4>
-              <ul class="footer__nav-list">
-                {% for link in linklists[block.settings.menu].links %}
-                  <li><a href="{{ link.url }}" class="footer__nav-link">{{ link.title }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endfor %}
+        <div class="footer__column">
+          <h4 class="footer__column-heading">Shop</h4>
+          <ul class="footer__nav-list">
+            {% for link in linklists['footer-shop'].links %}
+              <li><a href="{{ link.url }}" class="footer__nav-link">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h4 class="footer__column-heading">Company</h4>
+          <ul class="footer__nav-list">
+            {% for link in linklists['footer-info'].links %}
+              <li><a href="{{ link.url }}" class="footer__nav-link">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
 
         <div class="footer__contact">
           <h4 class="footer__column-heading">Contact</h4>
-          {% if section.settings.email %}
-            <a href="mailto:{{ section.settings.email }}" class="footer__contact-link">{{ section.settings.email }}</a>
-          {% endif %}
-          {% if section.settings.phone %}
-            <a href="tel:{{ section.settings.phone }}" class="footer__contact-link">{{ section.settings.phone }}</a>
-          {% endif %}
-          {% if section.settings.address %}
-            <p class="footer__address">{{ section.settings.address }}</p>
-          {% endif %}
+          <a href="mailto:hasnascoffee@gmail.com" class="footer__contact-link">hasnascoffee@gmail.com</a>
+          <p class="footer__address">North Austin, Texas</p>
         </div>
 
       </div>

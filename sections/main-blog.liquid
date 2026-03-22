@@ -1,0 +1,71 @@
+<section class="blog-page section-padding">
+  <div class="container">
+
+    <div class="blog-page__header">
+      <p class="section-eyebrow">{{ section.settings.eyebrow | default: 'Stories & Insights' }}</p>
+      <h1 class="section-heading">{{ blog.title }}</h1>
+      {% if section.settings.description %}
+        <p class="blog-page__desc">{{ section.settings.description }}</p>
+      {% else %}
+        <p class="blog-page__desc">Coffee wisdom, community stories, and the people behind every cup.</p>
+      {% endif %}
+    </div>
+
+    {% if blog.articles.size > 0 %}
+      <div class="blog-grid">
+        {% for article in blog.articles %}
+          <article class="blog-card">
+            {% if article.image %}
+              <a href="{{ article.url }}" class="blog-card__image-wrap">
+                <img src="{{ article.image | img_url: '600x400', crop: 'center' }}" alt="{{ article.image.alt | escape }}" loading="lazy" class="blog-card__image">
+              </a>
+            {% else %}
+              <a href="{{ article.url }}" class="blog-card__image-wrap blog-card__image-wrap--placeholder">
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'blog-card__placeholder' }}
+              </a>
+            {% endif %}
+            <div class="blog-card__body">
+              <div class="blog-card__meta">
+                <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%B %d, %Y' }}</time>
+                {% if article.tags.size > 0 %}
+                  <span class="blog-card__tag">{{ article.tags.first }}</span>
+                {% endif %}
+              </div>
+              <h2 class="blog-card__title">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+              </h2>
+              <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 140 }}</p>
+              <a href="{{ article.url }}" class="blog-card__read-more">
+                Read more
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <div class="blog-page__pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {% endif %}
+
+    {% else %}
+      <div class="blog-page__empty">
+        <p>No posts yet — check back soon. Sister Hasna has stories to tell.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Stories & Insights" },
+    { "type": "textarea", "id": "description", "label": "Blog description" }
+  ]
+}
+{% endschema %}

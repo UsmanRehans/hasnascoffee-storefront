@@ -23,8 +23,9 @@
               Thank you for subscribing!
             </p>
           {% else %}
-            <div class="newsletter__input-group">
+            <div class="newsletter__form">
               <input
+                class="newsletter__input"
                 type="email"
                 name="contact[email]"
                 id="NewsletterEmail"
@@ -37,7 +38,7 @@
               <button type="submit" class="btn btn--primary newsletter__submit">
                 {{ section.settings.button_label }}
               </button>
-            </div>
+            </div><!-- /.newsletter__form -->
             {% if form.errors %}
               <p class="newsletter__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
             {% endif %}

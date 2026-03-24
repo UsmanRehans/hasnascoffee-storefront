@@ -1368,6 +1368,8 @@ input, textarea, select { font-family: inherit; }
   border-color: var(--color-gold);
   color: #fff;
   flex-shrink: 0;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
 }
 .newsletter .btn--primary:hover {
   background: var(--color-gold-light);

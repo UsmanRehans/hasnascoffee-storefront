@@ -307,13 +307,13 @@ input, textarea, select { font-family: inherit; }
 }
 
 .header__logo-icon {
-  height: 44px;
+  height: 36px;
   width: auto;
   object-fit: contain;
 }
 
 .header__logo-text-img {
-  height: 36px;
+  height: 20px;
   width: auto;
   object-fit: contain;
 }

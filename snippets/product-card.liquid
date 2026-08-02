@@ -5,7 +5,20 @@
 
 {%- assign first_variant = product.variants.first -%}
 
-<div class="hc-pc" data-product-id="{{ product.id }}">
+{%- comment -%}
+  Two image treatments:
+  · default — transparent PNG cutout that floats above the card (DESIGN_LANGUAGE §7)
+  · tile    — a full-bleed studio photo that keeps its own background, for products
+              whose imagery is shot on a sweep rather than cut out. Opt in with the
+              `tile-image` product tag.
+{%- endcomment -%}
+{%- if product.tags contains 'tile-image' -%}
+  {%- assign img_style = 'tile' -%}
+{%- else -%}
+  {%- assign img_style = 'float' -%}
+{%- endif -%}
+
+<div class="hc-pc{% if img_style == 'tile' %} hc-pc--tile{% endif %}" data-product-id="{{ product.id }}">
 
   {%- comment %} — Badge — {% endcomment %}
   {%- if product.compare_at_price > product.price -%}
@@ -31,12 +44,12 @@
     <div class="hc-pc__img-wrap">
       {%- if product.featured_image -%}
         <img
-          src="{{ product.featured_image | img_url: '500x500' }}"
+          src="{{ product.featured_image | image_url: width: 700 }}"
           alt="{{ product.featured_image.alt | escape | default: product.title }}"
           loading="lazy"
           class="hc-pc__img"
-          width="500"
-          height="500"
+          width="700"
+          height="700"
         >
       {%- else -%}
         <div class="hc-pc__no-img">{{ product.title | slice: 0 }}</div>
@@ -276,5 +289,47 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   flex-shrink: 0;
+}
+
+/* ——————————————————————————————
+   Tile variant — full-bleed studio photo
+   For imagery shot on a sweep rather than cut out: the photo keeps its own
+   background and fills the top of the card edge to edge, so the card clips
+   to its radius instead of letting the image float past it.
+—————————————————————————————— */
+.hc-pc--tile {
+  padding: 0;
+  overflow: hidden;
+}
+.hc-pc--tile .hc-pc__img-wrap {
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: block;
+  margin-bottom: 0;
+}
+.hc-pc--tile .hc-pc__img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  transform: none;
+  filter: none;
+}
+.hc-pc--tile:hover .hc-pc__img {
+  transform: scale(1.04);
+}
+.hc-pc--tile .hc-pc__body {
+  padding: 16px 20px 20px;
+}
+
+/* the studio sweep is light, so these controls flip to dark-on-light */
+.hc-pc--tile .hc-pc__info-btn {
+  background: rgba(248,244,238,0.92);
+  border-color: rgba(26,12,5,0.18);
+  color: rgba(26,12,5,0.55);
+}
+.hc-pc--tile .hc-pc__info-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
 }
 </style>

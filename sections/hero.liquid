@@ -20,14 +20,14 @@
 
     <div class="hero-card__content">
       {% if section.settings.eyebrow != blank %}
-        <p class="hero-card__eyebrow">{{ section.settings.eyebrow }}</p>
+        <p class="hero-card__eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
       {% endif %}
 
       {% if section.settings.heading != blank %}
-        <h1 class="hero-card__heading">{{ section.settings.heading }}</h1>
+        <h1 class="hero-card__heading" data-animate="rise-lg">{{ section.settings.heading }}</h1>
       {% endif %}
 
-      <div class="hero-card__actions">
+      <div class="hero-card__actions" data-animate>
         {% if section.settings.button_label != blank %}
           <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="hero-card__btn">
             {{ section.settings.button_label }}

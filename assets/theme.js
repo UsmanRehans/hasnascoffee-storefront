@@ -214,19 +214,48 @@
 
   /* ============================================================
      Scroll Animations (Intersection Observer)
+
+     Progressive enhancement: the reveal styles only apply under
+     `html.js-motion`, which is set here. If this script fails to run, or the
+     visitor prefers reduced motion, every [data-animate] element simply stays
+     in its normal visible state — content is never hidden by CSS alone.
      ============================================================ */
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const animatables = document.querySelectorAll('[data-animate]');
-  if (animatables.length && 'IntersectionObserver' in window) {
+
+  if (animatables.length && 'IntersectionObserver' in window && !prefersReducedMotion) {
+    document.documentElement.classList.add('js-motion');
+
+    // Stagger siblings within a shared container so rows cascade rather than
+    // all firing at once. Opt in with data-animate-group on the parent.
+    document.querySelectorAll('[data-animate-group]').forEach(group => {
+      group.querySelectorAll('[data-animate]').forEach((el, i) => {
+        el.style.setProperty('--stagger', i);
+      });
+    });
+
+    let revealed = 0;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
+          revealed++;
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
     animatables.forEach(el => observer.observe(el));
+
+    // Safety net. If the observer has not reported a single intersection by
+    // now, it is not going to — some embedded/headless viewers never report
+    // any. Reveal everything rather than leave the page blank: the animation
+    // is decoration, the content is not optional.
+    window.setTimeout(() => {
+      if (revealed === 0) {
+        animatables.forEach(el => el.classList.add('is-visible'));
+      }
+    }, 2500);
   }
 
 })();

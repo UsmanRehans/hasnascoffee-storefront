@@ -1,0 +1,23 @@
+{% comment %}
+  Tilet rule — the woven border of the netela, reduced to three thin lines.
+
+  DESIGN_LANGUAGE §6b: maximum 4px tall. The three lines sit flush against each
+  other (1px each, 3px total) — the moment this gets thick it stops reading as a
+  woven edge and starts reading as a flag.
+
+  Usage:
+    {% render 'tilet-rule' %}
+    {% render 'tilet-rule', width: '120px' %}
+    {% render 'tilet-rule', width: '100%', class: 'my-divider' %}
+{% endcomment %}
+
+<span
+  class="tilet{% if class %} {{ class }}{% endif %}"
+  style="--tilet-width: {{ width | default: '72px' }};"
+  {% unless animate == false %}data-animate="fade"{% endunless %}
+  aria-hidden="true"
+>
+  <i class="tilet__line tilet__line--green"></i>
+  <i class="tilet__line tilet__line--gold"></i>
+  <i class="tilet__line tilet__line--red"></i>
+</span>

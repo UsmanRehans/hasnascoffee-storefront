@@ -1,4 +1,18 @@
-<section class="newsletter section-padding newsletter--accent">
+<section class="newsletter section-padding newsletter--accent{% if section.settings.background_image %} newsletter--has-image{% endif %}">
+  {%- if section.settings.background_image -%}
+    {%- comment -%}
+      Decorative only — the scrim below keeps the cream text legible over it,
+      so the image carries no meaning and takes an empty alt.
+    {%- endcomment -%}
+    <img
+      class="newsletter__bg"
+      src="{{ section.settings.background_image | image_url: width: 2000 }}"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    >
+    <div class="newsletter__scrim" aria-hidden="true"></div>
+  {%- endif -%}
   <div class="container">
     <div class="newsletter__inner">
       <div class="newsletter__content">
@@ -54,6 +68,12 @@
 {
   "name": "Newsletter",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Optional. A dark scrim is applied automatically so the cream text stays legible."
+    },
     {
       "type": "text",
       "id": "eyebrow",

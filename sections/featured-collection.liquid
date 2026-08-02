@@ -3,22 +3,29 @@
 
     <div class="section-header">
       {% if section.settings.eyebrow %}
-        <p class="section-eyebrow">{{ section.settings.eyebrow }}</p>
+        <p class="section-eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
       {% endif %}
       {% if section.settings.heading %}
-        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+        <h2 class="section-heading" data-animate="rise-lg">{{ section.settings.heading }}</h2>
       {% endif %}
       {% if section.settings.subheading %}
-        <p class="section-subheading">{{ section.settings.subheading }}</p>
+        <p class="section-subheading" data-animate="fade">{{ section.settings.subheading }}</p>
       {% endif %}
     </div>
 
-    <div class="collection-filter" role="tablist" aria-label="Filter products">
-      <button class="filter-btn is-active" role="tab" data-filter="all">All</button>
-      <button class="filter-btn" role="tab" data-filter="single-origin">Single Origin</button>
-      <button class="filter-btn" role="tab" data-filter="blend">Blends</button>
-      <button class="filter-btn" role="tab" data-filter="espresso">Espresso</button>
-    </div>
+    {%- comment -%}
+      Off by default: the click handler in theme.js only toggles the active
+      class, it does not actually filter the grid. Turn this on once the
+      filtering is wired to real product tags.
+    {%- endcomment -%}
+    {% if section.settings.show_filters %}
+      <div class="collection-filter" role="tablist" aria-label="Filter products">
+        <button class="filter-btn is-active" role="tab" data-filter="all">All</button>
+        <button class="filter-btn" role="tab" data-filter="single-origin">Single Origin</button>
+        <button class="filter-btn" role="tab" data-filter="blend">Blends</button>
+        <button class="filter-btn" role="tab" data-filter="espresso">Espresso</button>
+      </div>
+    {% endif %}
 
     {% assign collection = collections[section.settings.collection] %}
     {% if collection %}
@@ -104,6 +111,13 @@
       "id": "show_view_all",
       "label": "Show 'View all' button",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show category filter tabs",
+      "info": "These tabs are not wired to product tags yet — they change the active state but do not filter the grid.",
+      "default": false
     }
   ],
   "presets": [

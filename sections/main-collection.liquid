@@ -1,9 +1,13 @@
 <section class="hc-coll">
   <div class="container">
 
-    {%- comment %} ——— Page header ——— {% endcomment %}
+    {%- comment %} ——— Page header ———
+      Suppressed on templates that supply their own heading above this section
+      (e.g. collection.beans), so the page keeps a single h1.
+    {% endcomment %}
     <div class="hc-coll__header">
-      {%- if collection.image -%}
+      {%- if section.settings.show_title == false -%}
+      {%- elsif collection.image -%}
         <div class="hc-coll__hero">
           <img src="{{ collection.image | img_url: '2000x500', crop: 'center' }}" alt="{{ collection.title }}" loading="eager">
           <div class="hc-coll__hero-overlay">
@@ -189,6 +193,14 @@
 {
   "name": "Collection",
   "tag": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "info": "Turn off when the template already provides a heading above this section.",
+      "default": true
+    }
+  ]
 }
 {% endschema %}

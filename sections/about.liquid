@@ -1,4 +1,13 @@
-<section class="about section-padding {% if section.settings.dark_background %}about--dark{% endif %}">
+{%- comment -%}
+  The medallion watermark (DESIGN_LANGUAGE §6a) is drawn from the cream-on-
+  transparent logo. §7 notes no dark-ink variant exists yet; brightness(0) in
+  the stylesheet knocks the cream artwork to black while keeping its alpha, so
+  it can sit on the cream field at very low opacity until one is produced.
+{%- endcomment -%}
+<section
+  class="about section-padding has-medallion {% if section.settings.dark_background %}about--dark{% endif %}"
+  style="--medallion-src: url('{{ 'Hasna-Logo-No-Text.png' | asset_url }}');"
+>
   <div class="container">
     <div class="about__grid">
 

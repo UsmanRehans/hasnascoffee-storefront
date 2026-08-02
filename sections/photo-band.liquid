@@ -1,0 +1,166 @@
+{%- comment -%}
+  Photo band — a full-bleed run of tall images between two calm sections.
+
+  This deliberately breaks the container: DESIGN_LANGUAGE §1 says the cream
+  field stays calm and identity lives at the edges, so density is added here as
+  a distinct edge-to-edge band rather than by crowding the sections around it.
+  Captions sit under the images, not over them, so no scrim is needed.
+{%- endcomment -%}
+
+<section class="photo-band">
+
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div class="container">
+      <div class="photo-band__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="section-eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="photo-band__heading" data-animate="rise-lg">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {% render 'tilet-rule', width: '88px', class: 'photo-band__rule' %}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <ul class="photo-band__strip" data-animate-group>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'photo' -%}
+          <li class="photo-band__item" data-animate {{ block.shopify_attributes }}>
+            <div class="photo-band__frame">
+              {%- if block.settings.image -%}
+                <img
+                  src="{{ block.settings.image | image_url: width: 700 }}"
+                  alt="{{ block.settings.image.alt | escape | default: block.settings.caption }}"
+                  width="700"
+                  height="933"
+                  loading="lazy"
+                >
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'photo-band__placeholder' }}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.caption != blank -%}
+              <p class="photo-band__caption">{{ block.settings.caption }}</p>
+            {%- endif -%}
+            {%- if block.settings.meta != blank -%}
+              <p class="photo-band__meta">{{ block.settings.meta }}</p>
+            {%- endif -%}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+</section>
+
+<style>
+/* ——————————————————————————————
+   Photo band
+—————————————————————————————— */
+.photo-band {
+  padding: var(--space-16) 0;
+  background: var(--color-bg-alt);
+}
+
+.photo-band__head {
+  max-width: 640px;
+  margin-bottom: var(--space-10);
+}
+
+.photo-band__heading {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-text);
+  margin: 0 0 var(--space-5);
+}
+
+/* Full-bleed strip: escapes the container on purpose. */
+.photo-band__strip {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--container-pad);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.photo-band__frame {
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-border-light);
+}
+
+.photo-band__frame img,
+.photo-band__frame svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-base);
+}
+
+.photo-band__item:hover .photo-band__frame img {
+  transform: scale(1.03);
+}
+
+.photo-band__caption {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: var(--space-4) 0 var(--space-1);
+}
+
+.photo-band__meta {
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .photo-band__strip { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+}
+@media (max-width: 480px) {
+  .photo-band__strip { grid-template-columns: 1fr; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Photo Band",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "From the highlands" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where it comes from" }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "meta", "label": "Meta line" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Photo Band",
+      "blocks": [
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

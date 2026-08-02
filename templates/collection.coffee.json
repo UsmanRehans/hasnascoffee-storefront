@@ -5,51 +5,10 @@
       "settings": {
         "eyebrow": "Shop Coffee",
         "heading": "Everything is poured to order",
-        "text": "<p>Espresso pulled from the same four origins we roast and sell as beans, plus the traditional preparations: buna brewed in a clay jebena, coffee with butter and salt, tej in a berele.</p><p>Nothing here is pre-made. If you order the ceremony, expect to stay a while.</p>"
+        "text": "<p>Espresso pulled from the same four origins we roast and sell as beans, plus the traditional preparations: buna brewed in a clay jebena, coffee with butter and salt, tej in a berele. Nothing here is pre-made.</p>"
       },
-      "blocks": {
-        "espresso": {
-          "type": "origin",
-          "settings": {
-            "name": "Espresso",
-            "region": "Yirgacheffe & Harar",
-            "notes": "Single-origin shots, macchiato, and milk drinks in a clear glass.",
-            "spec": "$4.50 – $6.50",
-            "accent": "#B8860B"
-          }
-        },
-        "traditional": {
-          "type": "origin",
-          "settings": {
-            "name": "Traditional",
-            "region": "Jebena & sini",
-            "notes": "Buna as it is brewed at home: black, spiced, or with butter and salt.",
-            "spec": "$5.50 – $18.00",
-            "accent": "#9E2B25"
-          }
-        },
-        "iced": {
-          "type": "origin",
-          "settings": {
-            "name": "Iced",
-            "region": "Cold brew & over ice",
-            "notes": "Harar steeped eighteen hours, and espresso over ice with honey.",
-            "spec": "$6.00 – $6.50",
-            "accent": "#4A7C59"
-          }
-        },
-        "tea": {
-          "type": "origin",
-          "settings": {
-            "name": "Tea",
-            "region": "Tej & kuti",
-            "notes": "Honey mead with gesho, and bold fresh ginger with lemon.",
-            "spec": "$4.50 – $5.50",
-            "accent": "#C4622D"
-          }
-        }
-      },
-      "block_order": ["espresso", "traditional", "iced", "tea"]
+      "blocks": {},
+      "block_order": []
     },
     "main": {
       "type": "main-collection",

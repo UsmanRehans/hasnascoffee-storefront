@@ -1,70 +1,21 @@
 {
   "sections": {
-    "main": {
-      "type": "main-collection",
-      "settings": {
-        "show_title": false
-      }
-    },
     "intro": {
       "type": "collection-intro",
       "settings": {
         "eyebrow": "Shop Beans",
         "heading": "Four origins, one country",
-        "text": "<p>Ethiopia is where coffee comes from, not as a marketing line but as a matter of botany. Every arabica plant on earth traces back to these highlands, and the varietals still growing wild here have no names because no one ever needed to give them any.</p><p>We roast four origins in small batches and date every bag. Whole bean only. Grind it when you brew it.</p>"
+        "text": "<p>Every arabica plant on earth traces back to these highlands. We roast four origins in small batches and date every bag. Whole bean only. Grind it when you brew it.</p>"
       },
-      "blocks": {
-        "yirgacheffe": {
-          "type": "origin",
-          "settings": {
-            "name": "Yirgacheffe",
-            "region": "Gedeo Zone",
-            "notes": "Jasmine, bergamot, lemon peel. Clean and tea-like.",
-            "spec": "Washed · G1 · 1,900–2,200 m",
-            "accent": "#B8860B"
-          }
-        },
-        "harar": {
-          "type": "origin",
-          "settings": {
-            "name": "Harar",
-            "region": "Eastern highlands",
-            "notes": "Blueberry, dried apricot, a winey depth. Heavy body.",
-            "spec": "Natural · G4 · 1,500–2,100 m",
-            "accent": "#9E2B25"
-          }
-        },
-        "sidama": {
-          "type": "origin",
-          "settings": {
-            "name": "Sidama",
-            "region": "Sidama highlands",
-            "notes": "Peach, brown sugar, black tea. Round and gentle.",
-            "spec": "Washed · G2 · 1,700–2,200 m",
-            "accent": "#4A7C59"
-          }
-        },
-        "guji": {
-          "type": "origin",
-          "settings": {
-            "name": "Guji",
-            "region": "Oromia",
-            "notes": "Strawberry, dark chocolate, something tropical behind it.",
-            "spec": "Natural · G1 · 1,900–2,300 m",
-            "accent": "#C4622D"
-          }
-        }
-      },
-      "block_order": [
-        "yirgacheffe",
-        "sidama",
-        "guji",
-        "harar"
-      ]
+      "blocks": {},
+      "block_order": []
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_title": false
+      }
     }
   },
-  "order": [
-    "intro",
-    "main"
-  ]
+  "order": ["intro", "main"]
 }

@@ -62,7 +62,10 @@
    Beans intro
 ------------------------------ */
 .coll-intro {
-  padding: var(--space-16) 0 var(--space-12);
+  /* No bottom padding: main-collection below supplies its own --space-12 top
+     padding, and stacking both left a 96px dead gap between the intro copy and
+     the product toolbar. Let the next section own that side of the boundary. */
+  padding: var(--space-16) 0 0;
 }
 
 .coll-intro__head {

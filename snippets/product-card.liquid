@@ -88,7 +88,9 @@
 .hc-pc {
   background: var(--color-text); /* espresso dark */
   border-radius: 20px;
-  padding: 0 20px 20px;
+  /* top padding absorbs the floating image's upward overflow so it lifts to
+     the card edge instead of escaping above it */
+  padding: 28px 20px 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -178,17 +180,17 @@
   margin-bottom: 12px;
 }
 .hc-pc__img {
-  max-height: 230px;
+  max-height: 210px;
   width: auto;
   max-width: 100%;
   object-fit: contain;
-  transform: translateY(-24px);
+  transform: translateY(-18px);
   filter: drop-shadow(0 20px 32px rgba(0,0,0,0.55));
   transition: transform 0.3s ease;
   display: block;
 }
 .hc-pc:hover .hc-pc__img {
-  transform: translateY(-32px);
+  transform: translateY(-26px);
 }
 .hc-pc__no-img {
   width: 120px;
@@ -201,7 +203,7 @@
   font-family: var(--font-display);
   font-size: 3rem;
   color: var(--color-gold);
-  transform: translateY(-24px);
+  transform: translateY(-18px);
 }
 
 /* Card body */
@@ -238,6 +240,8 @@
   line-height: 1.2;
   margin: 0;
   flex: 1;
+  /* reserve two lines so price rows stay aligned across a row of cards */
+  min-height: 2.4em;
 }
 .hc-pc__title a {
   color: #F8F4EE;

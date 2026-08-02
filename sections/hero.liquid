@@ -19,22 +19,22 @@
     <div class="hero-card__overlay"></div>
 
     <div class="hero-card__content">
-      {% if section.settings.eyebrow %}
+      {% if section.settings.eyebrow != blank %}
         <p class="hero-card__eyebrow">{{ section.settings.eyebrow }}</p>
       {% endif %}
 
-      {% if section.settings.heading %}
+      {% if section.settings.heading != blank %}
         <h1 class="hero-card__heading">{{ section.settings.heading }}</h1>
       {% endif %}
 
       <div class="hero-card__actions">
-        {% if section.settings.button_label %}
-          <a href="{{ section.settings.button_link }}" class="hero-card__btn">
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="hero-card__btn">
             {{ section.settings.button_label }}
           </a>
         {% endif %}
-        {% if section.settings.secondary_button_label %}
-          <a href="{{ section.settings.secondary_button_link }}" class="hero-card__btn hero-card__btn--ghost">
+        {% if section.settings.secondary_button_label != blank %}
+          <a href="{{ section.settings.secondary_button_link | default: routes.root_url }}" class="hero-card__btn hero-card__btn--ghost">
             {{ section.settings.secondary_button_label }}
           </a>
         {% endif %}

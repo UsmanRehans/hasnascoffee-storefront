@@ -125,6 +125,11 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Backstop against sideways scroll. `clip` rather than `hidden` on purpose:
+     `hidden` would turn the root into a scroll container and break the smooth
+     scrolling and any sticky positioning. This is a safety net, not a fix -
+     anything overflowing still needs correcting at its source. */
+  overflow-x: clip;
 }
 
 body {
@@ -585,19 +590,40 @@ body:not(.template-index) #MainContent {
 .mobile-nav {
   position: fixed;
   top: 0;
-  right: -100%;
+  /* Parked with a transform, not `right: -100%`.
+     A fixed element offset off-screen still occupies scrollable area, and
+     `overflow-x: hidden` on body cannot clip it because fixed elements resolve
+     against the viewport rather than the body. On a 390px phone the old rule
+     put this drawer at x=390..750 and gave the whole site a 360px horizontal
+     scroll. `visibility: hidden` is what actually removes it from the scroll
+     area, and it also takes the closed drawer's links out of the tab order. */
+  right: 0;
+  transform: translateX(100%);
+  visibility: hidden;
   width: min(360px, 100vw);
-  height: 100vh;
+  height: 100dvh;
   background: var(--color-bg);
   z-index: 200;
   padding: var(--space-16) var(--space-8) var(--space-8);
-  transition: right var(--transition-slow);
+  /* Visibility flips only after the slide-out finishes, so the drawer stays
+     painted while it animates away. */
+  transition: transform var(--transition-slow), visibility 0s linear 400ms;
   overflow-y: auto;
+  overscroll-behavior: contain;
   border-left: 1px solid var(--color-border);
 }
 
-.mobile-nav.is-open { right: 0; }
-.mobile-nav[aria-hidden="true"] { right: -100%; }
+.mobile-nav.is-open,
+.mobile-nav[aria-hidden="false"] {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform var(--transition-slow), visibility 0s;
+}
+
+.mobile-nav[aria-hidden="true"]:not(.is-open) {
+  transform: translateX(100%);
+  visibility: hidden;
+}
 
 .mobile-nav__close {
   position: absolute;
@@ -2139,10 +2165,20 @@ body:not(.template-index) #MainContent {
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  /* A transform alone does not take the drawer out of the scrollable area:
+     its contents still measured out to x=750 on a 375px viewport. visibility
+     is what removes it, and it also keeps the closed drawer out of the tab
+     order. Delay matches the 0.35s slide so it stays painted while closing. */
+  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), visibility 0s linear 350ms;
   box-shadow: -4px 0 32px rgba(26,12,5,0.12);
+  overscroll-behavior: contain;
 }
-.cart-drawer.is-open { transform: translateX(0); }
+.cart-drawer.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), visibility 0s;
+}
 
 .cart-drawer__header {
   display: flex;
@@ -2901,6 +2937,19 @@ details[open] .cart-drawer__notes-trigger svg { transform: rotate(180deg); }
   }
   .hero-card__inner { min-height: 55vw; min-height: 55svh; }
   .hero-card__content { padding: var(--space-8) var(--space-6); }
+
+  /* Side by side, the two CTAs total more than the content width, so they wrap
+     and size to their own text: 156px against 152px, which reads as a
+     misalignment rather than a stack. Below this width they stack full bleed
+     and match each other exactly. */
+  .hero-card__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-card__btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ============================================================

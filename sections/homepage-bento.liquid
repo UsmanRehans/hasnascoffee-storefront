@@ -2,7 +2,7 @@
   <div class="container">
     <div class="hp-bento__grid">
 
-      {%- comment -%} LEFT — Featured Menu {%- endcomment -%}
+      {%- comment -%} LEFT - Featured Menu {%- endcomment -%}
       <div class="hp-bento__card hp-bento__menu">
         <p class="hp-bento__label">{{ section.settings.menu_eyebrow | default: 'Featured Menu' }}</p>
         <h2 class="hp-bento__heading">{{ section.settings.menu_heading | default: 'Our Drinks' }}</h2>
@@ -44,7 +44,7 @@
         {% endif %}
       </div>
 
-      {%- comment -%} MIDDLE — Spotlight product {%- endcomment -%}
+      {%- comment -%} MIDDLE - Spotlight product {%- endcomment -%}
       <div class="hp-bento__card hp-bento__spotlight">
         {% assign spot_col = collections[section.settings.spotlight_collection] %}
         {% if spot_col and spot_col.products.first %}
@@ -75,7 +75,7 @@
         {% endif %}
       </div>
 
-      {%- comment -%} RIGHT — About {%- endcomment -%}
+      {%- comment -%} RIGHT - About {%- endcomment -%}
       <div class="hp-bento__card hp-bento__about">
         <div class="hp-bento__about-imgs">
           {% for block in section.blocks %}

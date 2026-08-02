@@ -12,7 +12,7 @@ const products = [
   // Menu drinks
   {
     title: 'Ethiopian Coffee Ceremony',
-    body_html: 'The full three-round ceremony — Abol, Tona & Baraka. Beans roasted tableside, brewed in a clay jebena. Served with popcorn or kollo.',
+    body_html: 'The full three-round ceremony - Abol, Tona & Baraka. Beans roasted tableside, brewed in a clay jebena. Served with popcorn or kollo.',
     product_type: 'Drink',
     tags: 'signature, ceremony, traditional',
     variants: [{ price: '18.00', requires_shipping: false }],
@@ -26,7 +26,7 @@ const products = [
   },
   {
     title: 'Buna Be Wetet',
-    body_html: 'Coffee prepared with butter and salt — a beloved tradition from the Oromia highlands. Rich, savory and nourishing.',
+    body_html: 'Coffee prepared with butter and salt - a beloved tradition from the Oromia highlands. Rich, savory and nourishing.',
     product_type: 'Drink',
     tags: 'traditional',
     variants: [{ price: '5.50', requires_shipping: false }],
@@ -85,14 +85,14 @@ const products = [
     variants: [{ price: '6.50', requires_shipping: false }],
   },
   {
-    title: 'Tej — Honey Mead Tea',
+    title: 'Tej - Honey Mead Tea',
     body_html: 'Non-alcoholic honey mead brewed with gesho hops and warm spices. Warm or chilled.',
     product_type: 'Drink',
     tags: 'non-caffeinated, tea',
     variants: [{ price: '5.50', requires_shipping: false }],
   },
   {
-    title: 'Kuti — Ginger Tea',
+    title: 'Kuti - Ginger Tea',
     body_html: 'Bold fresh ginger with honey and lemon. A traditional Ethiopian digestive remedy that warms from the inside out.',
     product_type: 'Drink',
     tags: 'non-caffeinated, tea',

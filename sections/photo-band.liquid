@@ -1,5 +1,5 @@
 {%- comment -%}
-  Photo band — a full-bleed run of tall images between two calm sections.
+  Photo band - a full-bleed run of tall images between two calm sections.
 
   This deliberately breaks the container: DESIGN_LANGUAGE §1 says the cream
   field stays calm and identity lives at the edges, so density is added here as
@@ -8,9 +8,9 @@
 {%- endcomment -%}
 
 <section class="photo-band">
+  <div class="container">
 
   {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
-    <div class="container">
       <div class="photo-band__head">
         {%- if section.settings.eyebrow != blank -%}
           <p class="section-eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
@@ -20,7 +20,6 @@
         {%- endif -%}
         {% render 'tilet-rule', width: '88px', class: 'photo-band__rule' %}
       </div>
-    </div>
   {%- endif -%}
 
   {%- if section.blocks.size > 0 -%}
@@ -53,20 +52,23 @@
     </ul>
   {%- endif -%}
 
+  </div>
 </section>
 
 <style>
-/* ——————————————————————————————
+/* ------------------------------
    Photo band
-—————————————————————————————— */
+------------------------------ */
 .photo-band {
-  padding: var(--space-16) 0;
+  /* --space-24 to match .section-padding; the band used to run 64px against
+     everything else's 96px, which read as a rhythm break. */
+  padding: var(--space-24) 0;
   background: var(--color-bg-alt);
 }
 
 .photo-band__head {
   max-width: 640px;
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-head-content);
 }
 
 .photo-band__heading {
@@ -78,14 +80,13 @@
   margin: 0 0 var(--space-5);
 }
 
-/* Full-bleed strip: escapes the container on purpose. */
 .photo-band__strip {
   list-style: none;
   margin: 0;
-  padding: 0 var(--container-pad);
+  padding: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
+  gap: var(--gap-grid);
 }
 
 .photo-band__frame {
@@ -125,7 +126,7 @@
 }
 
 @media (max-width: 900px) {
-  .photo-band__strip { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .photo-band__strip { grid-template-columns: repeat(2, 1fr); gap: var(--gap-grid-sm); }
 }
 @media (max-width: 480px) {
   .photo-band__strip { grid-template-columns: 1fr; }

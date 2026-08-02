@@ -1,11 +1,17 @@
 {
   "sections": {
-    "beans-intro": {
-      "type": "beans-intro",
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_title": false
+      }
+    },
+    "intro": {
+      "type": "collection-intro",
       "settings": {
         "eyebrow": "Shop Beans",
         "heading": "Four origins, one country",
-        "text": "<p>Ethiopia is where coffee comes from — not as a marketing line, but as a matter of botany. Every arabica plant on earth traces back to these highlands, and the varietals still growing wild here have no names because no one ever needed to give them any.</p><p>We roast four origins in small batches and date every bag. Whole bean only — grind it when you brew it.</p>"
+        "text": "<p>Ethiopia is where coffee comes from, not as a marketing line but as a matter of botany. Every arabica plant on earth traces back to these highlands, and the varietals still growing wild here have no names because no one ever needed to give them any.</p><p>We roast four origins in small batches and date every bag. Whole bean only. Grind it when you brew it.</p>"
       },
       "blocks": {
         "yirgacheffe": {
@@ -49,14 +55,16 @@
           }
         }
       },
-      "block_order": ["yirgacheffe", "sidama", "guji", "harar"]
-    },
-    "main": {
-      "type": "main-collection",
-      "settings": {
-        "show_title": false
-      }
+      "block_order": [
+        "yirgacheffe",
+        "sidama",
+        "guji",
+        "harar"
+      ]
     }
   },
-  "order": ["beans-intro", "main"]
+  "order": [
+    "intro",
+    "main"
+  ]
 }

@@ -23,7 +23,7 @@
         "menu_link": "shopify://collections/coffee",
         "spotlight_collection": "beans",
         "about_eyebrow": "About our cart",
-        "about_text": "Hasna's brings the Ethiopian coffee ceremony to Austin. Green beans roasted over coals, ground by hand, brewed in a clay jebena — and poured three times.",
+        "about_text": "Hasna's brings the Ethiopian coffee ceremony to Austin. Green beans roasted over coals, ground by hand, brewed in a clay jebena, and poured three times.",
         "about_link_label": "Learn more",
         "about_link": "shopify://pages/our-history"
       },
@@ -106,7 +106,7 @@
         "badge_text": "Rounds to every ceremony",
         "eyebrow": "Our Story",
         "heading": "Buna is not a drink. It is an invitation.",
-        "text": "<p>In Ethiopia, coffee is not something you pick up on the way somewhere else. Green beans are roasted over coals while you wait, ground by hand, and brewed in a clay jebena. It is poured three times — <em>abol</em>, <em>tona</em>, <em>baraka</em> — and you are expected to stay for all three.</p><p>That is the part we brought to Austin. We roast four Ethiopian origins in small batches, and we tell you exactly where each one came from.</p>",
+        "text": "<p>In Ethiopia, coffee is not something you pick up on the way somewhere else. Green beans are roasted over coals while you wait, ground by hand, and brewed in a clay jebena. It is poured three times: <em>abol</em>, <em>tona</em>, <em>baraka</em>. You are expected to stay for all three.</p><p>That is the part we brought to Austin. We roast four Ethiopian origins in small batches, and we tell you exactly where each one came from.</p>",
         "button_label": "Our history",
         "button_link": "shopify://pages/our-history"
       },
@@ -166,7 +166,7 @@
           "settings": {
             "image": "shopify://shop_images/hc-process-brew.png",
             "title": "Brew",
-            "text": "Ground fresh and brewed in a clay jebena over coals — the same vessel, and very nearly the same method, for six hundred years."
+            "text": "Ground fresh and brewed in a clay jebena over coals, in the same vessel and very nearly the same method, for six hundred years."
           }
         },
         "step-4": {

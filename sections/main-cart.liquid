@@ -81,7 +81,7 @@
               <div class="cart-summary__discounts">
                 {% for discount in cart.cart_level_discount_applications %}
                   <p class="cart-discount">
-                    {{ discount.title }} — {{ discount.total_allocated_amount | money }} off
+                    {{ discount.title }}: {{ discount.total_allocated_amount | money }} off
                   </p>
                 {% endfor %}
               </div>

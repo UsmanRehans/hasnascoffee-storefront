@@ -1,7 +1,7 @@
 <section class="hc-coll">
   <div class="container">
 
-    {%- comment %} ——— Page header ———
+    {%- comment %} --- Page header ---
       Suppressed on templates that supply their own heading above this section
       (e.g. collection.beans), so the page keeps a single h1.
     {% endcomment %}
@@ -43,10 +43,10 @@
       </div>
     </div>
 
-    {%- comment %} ——— Product grid ——— {% endcomment %}
+    {%- comment %} --- Product grid --- {% endcomment %}
     {%- if collection.products.size > 0 -%}
       {%- paginate collection.products by 16 -%}
-        <div class="hc-coll__grid">
+        <div class="hc-coll__grid" data-animate-group>
           {%- for product in collection.products -%}
             {% render 'product-card', product: product %}
           {%- endfor -%}
@@ -75,9 +75,9 @@
 </section>
 
 <style>
-/* ——————————————————————————————
+/* ------------------------------
    Collection Page
-—————————————————————————————— */
+------------------------------ */
 .hc-coll {
   padding: var(--space-12) 0 var(--space-20);
 }
@@ -143,19 +143,21 @@
 .hc-coll__sort:focus { border-color: var(--color-gold); }
 .hc-coll__sort option { background: var(--color-text); color: #F8F4EE; }
 
-/* Grid — matches the bento reference: 4-up on large, 2-up on mobile */
+/* Grid - matches the bento reference: 4-up on large, 2-up on mobile */
 .hc-coll__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding-top: 40px; /* room for floating images that overflow upward */
+  gap: var(--gap-grid);
+  /* Cards carry their own 28px top padding, which already clears the -18px
+     float on cutout images. Extra grid padding here was pure dead space. */
+  padding-top: 0;
 }
 
 @media (max-width: 1100px) {
   .hc-coll__grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 768px) {
-  .hc-coll__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .hc-coll__grid { grid-template-columns: repeat(2, 1fr); gap: var(--gap-grid-sm); }
 }
 @media (max-width: 460px) {
   .hc-coll__grid { grid-template-columns: 1fr; }

@@ -29,7 +29,7 @@
 
     {% assign collection = collections[section.settings.collection] %}
     {% if collection %}
-      <div class="hc-coll__grid hc-feat-grid" id="FeaturedProducts">
+      <div class="hc-coll__grid hc-feat-grid" id="FeaturedProducts" data-animate-group>
         {% for product in collection.products limit: section.settings.products_to_show %}
           {% render 'product-card', product: product %}
         {% endfor %}
@@ -62,11 +62,13 @@
 .hc-coll__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding-top: 40px;
+  gap: var(--gap-grid);
+  /* Cards carry their own 28px top padding, which already clears the -18px
+     float on cutout images. Extra grid padding here was pure dead space. */
+  padding-top: 0;
 }
 @media (max-width: 1100px) { .hc-coll__grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px)  { .hc-coll__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+@media (max-width: 768px)  { .hc-coll__grid { grid-template-columns: repeat(2, 1fr); gap: var(--gap-grid-sm); } }
 @media (max-width: 460px)  { .hc-coll__grid { grid-template-columns: 1fr; } }
 </style>
 
@@ -90,7 +92,7 @@
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "From bright and fruity to rich and bold — explore coffees that match your taste."
+      "default": "From bright and fruity to rich and bold. Explore coffees that match your taste."
     },
     {
       "type": "collection",
@@ -116,7 +118,7 @@
       "type": "checkbox",
       "id": "show_filters",
       "label": "Show category filter tabs",
-      "info": "These tabs are not wired to product tags yet — they change the active state but do not filter the grid.",
+      "info": "These tabs are not wired to product tags yet. They change the active state but do not filter the grid.",
       "default": false
     }
   ],

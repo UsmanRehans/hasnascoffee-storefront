@@ -1,5 +1,5 @@
 {% comment %}
-  Product Card — Bento style with floating image
+  Product Card - Bento style with floating image
   Usage: {% render 'product-card', product: product %}
 {% endcomment %}
 
@@ -7,20 +7,30 @@
 
 {%- comment -%}
   Two image treatments:
-  · default — transparent PNG cutout that floats above the card (DESIGN_LANGUAGE §7)
-  · tile    — a full-bleed studio photo that keeps its own background, for products
-              whose imagery is shot on a sweep rather than cut out. Opt in with the
-              `tile-image` product tag.
+  · tile  (default) - a full-bleed studio photo that keeps its own background.
+  · float           - a transparent PNG cutout lifted above the card edge with a
+                      drop-shadow (the original bento treatment, DESIGN_LANGUAGE §7).
+
+  Tile is the default because every product in this catalogue is now shot on a
+  studio sweep. A cutout only reads on this dark card when the subject is large
+  and light; small dark subjects disappear into the card entirely. Opt a product
+  back into the floating treatment with the `float-image` tag.
 {%- endcomment -%}
-{%- if product.tags contains 'tile-image' -%}
-  {%- assign img_style = 'tile' -%}
-{%- else -%}
+{%- if product.tags contains 'float-image' -%}
   {%- assign img_style = 'float' -%}
+{%- else -%}
+  {%- assign img_style = 'tile' -%}
 {%- endif -%}
 
+{%- comment -%}
+  The reveal lives on this wrapper, not on the card. Both the reveal and the
+  hover lift animate `transform`, so sharing one element means the reveal's
+  long duration also governs hover and the lift turns sluggish.
+{%- endcomment -%}
+<div class="hc-pc-reveal" data-animate>
 <div class="hc-pc{% if img_style == 'tile' %} hc-pc--tile{% endif %}" data-product-id="{{ product.id }}">
 
-  {%- comment %} — Badge — {% endcomment %}
+  {%- comment %} - Badge - {% endcomment %}
   {%- if product.compare_at_price > product.price -%}
     <span class="hc-pc__badge hc-pc__badge--sale">Sale</span>
   {%- elsif product.tags contains 'new' -%}
@@ -29,7 +39,7 @@
     <span class="hc-pc__badge hc-pc__badge--hot">Hot!</span>
   {%- endif -%}
 
-  {%- comment %} — Info button with description tooltip — {% endcomment %}
+  {%- comment %} - Info button with description tooltip - {% endcomment %}
   <div class="hc-pc__info-wrap">
     <button class="hc-pc__info-btn" aria-label="Product info" type="button">&#9432;</button>
     {%- if product.description != blank -%}
@@ -39,7 +49,7 @@
     {%- endif -%}
   </div>
 
-  {%- comment %} — Floating image — {% endcomment %}
+  {%- comment %} - Floating image - {% endcomment %}
   <a href="{{ product.url }}" class="hc-pc__img-link" tabindex="-1" aria-hidden="true">
     <div class="hc-pc__img-wrap">
       {%- if product.featured_image -%}
@@ -57,7 +67,7 @@
     </div>
   </a>
 
-  {%- comment %} — Card body — {% endcomment %}
+  {%- comment %} - Card body - {% endcomment %}
   <div class="hc-pc__body">
     <div class="hc-pc__meta-row">
       <span class="hc-pc__price">{{ product.price | money }}</span>
@@ -93,11 +103,17 @@
   </div>
 
 </div>
+</div>
 
 <style>
-/* ——————————————————————————————
+/* Reveal wrapper - keeps the grid's equal-height behaviour by passing the
+   stretch through to the card. */
+.hc-pc-reveal { display: flex; }
+.hc-pc-reveal > .hc-pc { flex: 1; }
+
+/* ------------------------------
    Bento Product Card
-—————————————————————————————— */
+------------------------------ */
 .hc-pc {
   background: var(--color-text); /* espresso dark */
   border-radius: 20px;
@@ -108,7 +124,10 @@
   flex-direction: column;
   position: relative;
   overflow: visible;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform var(--dur-hover) var(--ease-out-quint),
+    box-shadow var(--dur-hover) var(--ease-out-quint),
+    border-color var(--dur-hover) var(--ease-out-quint);
 }
 
 .hc-pc:hover {
@@ -291,12 +310,12 @@
   flex-shrink: 0;
 }
 
-/* ——————————————————————————————
-   Tile variant — full-bleed studio photo
+/* ------------------------------
+   Tile variant - full-bleed studio photo
    For imagery shot on a sweep rather than cut out: the photo keeps its own
    background and fills the top of the card edge to edge, so the card clips
    to its radius instead of letting the image float past it.
-—————————————————————————————— */
+------------------------------ */
 .hc-pc--tile {
   padding: 0;
   overflow: hidden;

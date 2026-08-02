@@ -1,5 +1,5 @@
 /* ============================================================
-   Hasna's Coffee — AJAX Cart Drawer
+   Hasna's Coffee - AJAX Cart Drawer
    ============================================================ */
 (function () {
   'use strict';

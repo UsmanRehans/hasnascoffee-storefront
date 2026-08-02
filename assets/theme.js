@@ -1,5 +1,5 @@
 /**
- * Hasna's Coffee — Theme JavaScript
+ * Hasna's Coffee - Theme JavaScript
  */
 
 (function () {
@@ -218,7 +218,7 @@
      Progressive enhancement: the reveal styles only apply under
      `html.js-motion`, which is set here. If this script fails to run, or the
      visitor prefers reduced motion, every [data-animate] element simply stays
-     in its normal visible state — content is never hidden by CSS alone.
+     in its normal visible state - content is never hidden by CSS alone.
      ============================================================ */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const animatables = document.querySelectorAll('[data-animate]');
@@ -228,9 +228,13 @@
 
     // Stagger siblings within a shared container so rows cascade rather than
     // all firing at once. Opt in with data-animate-group on the parent.
+    // Cap the index: past ~6 the cascade stops reading as a cascade and just
+    // feels like the last items are late. A 12-product grid would otherwise
+    // make the final card wait most of a second.
+    const MAX_STAGGER = 6;
     document.querySelectorAll('[data-animate-group]').forEach(group => {
       group.querySelectorAll('[data-animate]').forEach((el, i) => {
-        el.style.setProperty('--stagger', i);
+        el.style.setProperty('--stagger', Math.min(i, MAX_STAGGER));
       });
     });
 
@@ -248,7 +252,7 @@
     animatables.forEach(el => observer.observe(el));
 
     // Safety net. If the observer has not reported a single intersection by
-    // now, it is not going to — some embedded/headless viewers never report
+    // now, it is not going to - some embedded/headless viewers never report
     // any. Reveal everything rather than leave the page blank: the animation
     // is decoration, the content is not optional.
     window.setTimeout(() => {

@@ -19,6 +19,23 @@
     <div class="hero-card__overlay"></div>
 
     <div class="hero-card__content">
+      {%- comment -%}
+        Brand lockup. The mark is cream on transparency, so it only works over
+        the scrimmed left column (DESIGN_LANGUAGE §7) - never move it to the
+        clear right side of the card.
+      {%- endcomment -%}
+      {% if section.settings.show_logo %}
+        <img
+          class="hero-card__logo"
+          src="{{ section.settings.logo | default: 'Hasna-Logo-3-BG-Removed.png' | asset_url }}"
+          alt="{{ shop.name }}"
+          width="200"
+          height="200"
+          loading="eager"
+          data-animate="fade"
+        >
+      {% endif %}
+
       {% if section.settings.eyebrow != blank %}
         <p class="hero-card__eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
       {% endif %}
@@ -49,6 +66,8 @@
   "tag": "section",
   "settings": [
     { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "checkbox", "id": "show_logo", "label": "Show logo in hero", "default": true },
+    { "type": "image_picker", "id": "logo", "label": "Hero logo", "info": "Defaults to the theme logo asset. Must be light artwork: it sits on the dark side of the hero." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Roasted in Austin · Sourced from Ethiopia" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Brewed Fresh,\nServed Warm." },
     { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop Coffee" },

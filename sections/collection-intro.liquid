@@ -1,50 +1,52 @@
 {%- comment -%}
-  Beans intro — origin storytelling above the Shop Beans grid.
+  Collection intro - storytelling above a collection grid.
+  Used by collection.beans and collection.coffee. Block fields are deliberately
+  generic: an origin card and a drink-category card have the same shape.
 
   Follows DESIGN_LANGUAGE §1: the field stays calm cream, and each origin carries
   its identity in a single accent line at the top edge of its card. The accent is
   a rule, never a fill (§3).
 {%- endcomment -%}
 
-<section class="beans-intro">
+<section class="coll-intro">
   <div class="container">
 
-    <div class="beans-intro__head">
+    <div class="coll-intro__head">
       {%- if section.settings.eyebrow != blank -%}
         <p class="section-eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
 
       {%- if section.settings.heading != blank -%}
-        <h1 class="beans-intro__heading" data-animate="rise-lg">{{ section.settings.heading }}</h1>
+        <h1 class="coll-intro__heading" data-animate="rise-lg">{{ section.settings.heading }}</h1>
       {%- endif -%}
 
-      {% render 'tilet-rule', width: '88px', class: 'beans-intro__rule' %}
+      {% render 'tilet-rule', width: '88px', class: 'coll-intro__rule' %}
 
       {%- if section.settings.text != blank -%}
-        <div class="beans-intro__text rte" data-animate="fade">{{ section.settings.text }}</div>
+        <div class="coll-intro__text rte" data-animate="fade">{{ section.settings.text }}</div>
       {%- endif -%}
     </div>
 
     {%- if section.blocks.size > 0 -%}
-      <ul class="beans-intro__origins" data-animate-group>
+      <ul class="coll-intro__origins" data-animate-group>
         {%- for block in section.blocks -%}
           {%- if block.type == 'origin' -%}
             <li
-              class="beans-intro__origin"
+              class="coll-intro__origin"
               data-animate
               style="--origin-accent: {{ block.settings.accent | default: '#B8860B' }};"
               {{ block.shopify_attributes }}
             >
-              <span class="beans-intro__origin-accent" aria-hidden="true"></span>
-              <h2 class="beans-intro__origin-name">{{ block.settings.name }}</h2>
+              <span class="coll-intro__origin-accent" aria-hidden="true"></span>
+              <h2 class="coll-intro__origin-name">{{ block.settings.name }}</h2>
               {%- if block.settings.region != blank -%}
-                <p class="beans-intro__origin-region">{{ block.settings.region }}</p>
+                <p class="coll-intro__origin-region">{{ block.settings.region }}</p>
               {%- endif -%}
               {%- if block.settings.notes != blank -%}
-                <p class="beans-intro__origin-notes">{{ block.settings.notes }}</p>
+                <p class="coll-intro__origin-notes">{{ block.settings.notes }}</p>
               {%- endif -%}
               {%- if block.settings.spec != blank -%}
-                <p class="beans-intro__origin-spec">{{ block.settings.spec }}</p>
+                <p class="coll-intro__origin-spec">{{ block.settings.spec }}</p>
               {%- endif -%}
             </li>
           {%- endif -%}
@@ -56,18 +58,18 @@
 </section>
 
 <style>
-/* ——————————————————————————————
+/* ------------------------------
    Beans intro
-—————————————————————————————— */
-.beans-intro {
+------------------------------ */
+.coll-intro {
   padding: var(--space-16) 0 var(--space-12);
 }
 
-.beans-intro__head {
+.coll-intro__head {
   max-width: 720px;
 }
 
-.beans-intro__heading {
+.coll-intro__heading {
   font-family: var(--font-display);
   font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
   font-weight: 600;
@@ -76,29 +78,29 @@
   margin: 0 0 var(--space-5);
 }
 
-.beans-intro__rule {
+.coll-intro__rule {
   margin-bottom: var(--space-6);
 }
 
-.beans-intro__text {
+.coll-intro__text {
   font-size: var(--text-lg);
   line-height: 1.75;
   color: var(--color-text-secondary);
 }
-.beans-intro__text p { margin: 0 0 var(--space-4); }
-.beans-intro__text p:last-child { margin-bottom: 0; }
+.coll-intro__text p { margin: 0 0 var(--space-4); }
+.coll-intro__text p:last-child { margin-bottom: 0; }
 
-/* Origin cards — identity lives in the top edge only */
-.beans-intro__origins {
+/* Origin cards - identity lives in the top edge only */
+.coll-intro__origins {
   list-style: none;
-  margin: var(--space-12) 0 0;
+  margin: var(--space-head-content) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-5);
+  gap: var(--gap-grid);
 }
 
-.beans-intro__origin {
+.coll-intro__origin {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -107,7 +109,7 @@
   overflow: hidden;
 }
 
-.beans-intro__origin-accent {
+.coll-intro__origin-accent {
   position: absolute;
   top: 0;
   left: 0;
@@ -116,7 +118,7 @@
   background: var(--origin-accent);
 }
 
-.beans-intro__origin-name {
+.coll-intro__origin-name {
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: 600;
@@ -124,20 +126,20 @@
   margin: var(--space-2) 0 var(--space-2);
 }
 
-.beans-intro__origin-region {
+.coll-intro__origin-region {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   margin: 0 0 var(--space-4);
 }
 
-.beans-intro__origin-notes {
+.coll-intro__origin-notes {
   font-size: var(--text-base);
   line-height: 1.6;
   color: var(--color-text-secondary);
   margin: 0 0 var(--space-4);
 }
 
-.beans-intro__origin-spec {
+.coll-intro__origin-spec {
   font-size: var(--text-xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -146,16 +148,16 @@
 }
 
 @media (max-width: 1100px) {
-  .beans-intro__origins { grid-template-columns: repeat(2, 1fr); }
+  .coll-intro__origins { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px) {
-  .beans-intro__origins { grid-template-columns: 1fr; }
+  .coll-intro__origins { grid-template-columns: 1fr; }
 }
 </style>
 
 {% schema %}
 {
-  "name": "Beans Intro",
+  "name": "Collection Intro",
   "tag": "section",
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop Beans" },
@@ -164,17 +166,17 @@
       "type": "richtext",
       "id": "text",
       "label": "Intro text",
-      "default": "<p>Ethiopia is where coffee comes from — not as a marketing line, but as a matter of botany. Every arabica plant on earth traces back to these highlands.</p><p>We roast four origins in small batches and date every bag. Whole bean only; grind it when you brew it.</p>"
+      "default": "<p>Ethiopia is where coffee comes from, not as a marketing line but as a matter of botany. Every arabica plant on earth traces back to these highlands.</p><p>We roast four origins in small batches and date every bag. Whole bean only; grind it when you brew it.</p>"
     }
   ],
   "blocks": [
     {
       "type": "origin",
-      "name": "Origin",
+      "name": "Card",
       "settings": [
-        { "type": "text", "id": "name", "label": "Origin name", "default": "Yirgacheffe" },
-        { "type": "text", "id": "region", "label": "Region", "default": "Gedeo Zone" },
-        { "type": "text", "id": "notes", "label": "Tasting notes", "default": "Jasmine, bergamot, lemon peel." },
+        { "type": "text", "id": "name", "label": "Title", "default": "Yirgacheffe" },
+        { "type": "text", "id": "region", "label": "Subtitle", "default": "Gedeo Zone" },
+        { "type": "text", "id": "notes", "label": "Body", "default": "Jasmine, bergamot, lemon peel." },
         { "type": "text", "id": "spec", "label": "Spec line", "default": "Washed · G1 · 1,900–2,200 m" },
         { "type": "color", "id": "accent", "label": "Accent colour", "default": "#B8860B" }
       ]
@@ -182,7 +184,7 @@
   ],
   "presets": [
     {
-      "name": "Beans Intro",
+      "name": "Collection Intro",
       "blocks": [
         { "type": "origin" },
         { "type": "origin" },

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Hasna's Coffee — Shopify Theme Deploy Script
+ * Hasna's Coffee - Shopify Theme Deploy Script
  * Uploads all theme files to a target theme via REST API
  * Usage: SHOPIFY_STORE=x.myshopify.com SHOPIFY_ACCESS_TOKEN=shpat_xxx node scripts/deploy.js [theme_id]
  */
@@ -111,7 +111,7 @@ async function main() {
         console.log(`  ✅  ${r.key}`);
         ok++;
       } else {
-        console.error(`  ❌  ${r.key} — ${JSON.stringify(r.error)}`);
+        console.error(`  ❌  ${r.key} - ${JSON.stringify(r.error)}`);
         fail++;
       }
     }

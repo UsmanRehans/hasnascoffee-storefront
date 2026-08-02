@@ -16,9 +16,9 @@ OUT = ROOT / "design" / "merch-vectors"
 JOBS = [
     ("06-coffee-house-back", "06-hasnas-coffee-house-branded.png", (240, 360, 860, 1135), "brand-multi", None),
     ("07-buna-club-front", "07-hasnas-buna-club-front-back.png", (300, 260, 650, 475), "cream", "#F8F4EE"),
-    ("07-buna-club-back", "07-hasnas-buna-club-front-back.png", (845, 175, 1455, 835), "cream", "#F8F4EE"),
+    ("07-buna-club-back", "07-hasnas-buna-club-front-back.png", (925, 205, 1375, 815), "cream", "#F8F4EE"),
     ("08-ethiopian-coffee-house-front", "08-hasnas-ethiopian-coffee-house-front-back.png", (430, 250, 620, 490), "cream", "#F8F4EE"),
-    ("08-ethiopian-coffee-house-back", "08-hasnas-ethiopian-coffee-house-front-back.png", (875, 165, 1430, 905), "cream", "#F8F4EE"),
+    ("08-ethiopian-coffee-house-back", "08-hasnas-ethiopian-coffee-house-front-back.png", (915, 195, 1380, 890), "cream", "#F8F4EE"),
     ("09-buna-society-front", "09-hasnas-buna-society-front-back.png", (350, 245, 585, 475), "cream", "#F8F4EE"),
     ("09-buna-society-back", "09-hasnas-buna-society-front-back.png", (900, 210, 1385, 800), "cream", "#F8F4EE"),
     ("10-coffee-or-matcha-front", "10-hasnas-coffee-or-matcha-front-back.png", (340, 245, 650, 455), "cream", "#F8F4EE"),
@@ -114,8 +114,6 @@ def svg_for(name, source, crop, mode, color):
             layers.append((layer_color, clean_mask(mask)))
     else:
         mask = mask_for(art, mode)
-        if mode == "cream":
-            mask = remove_border_components(mask)
         layers.append((color, clean_mask(mask)))
 
     paths = []

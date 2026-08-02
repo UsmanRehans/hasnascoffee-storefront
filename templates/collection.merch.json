@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "main": {
+      "type": "merch-coming-soon",
+      "settings": {
+        "eyebrow": "Coffee Club",
+        "heading": "The first tee is in the works",
+        "text": "<p>One shirt to start: heavyweight brown cotton, cream print, Hasna's on the back. It is drawn and it is close, but it is not printed yet.</p><p>We are working through fabric weight, print quality and sizing with a local Austin shop before anything goes on sale. When a piece is right, it goes up. Until then this page is the honest answer.</p>",
+        "image_asset": "merch-coffee-club-tee.jpg",
+        "image_alt": "The brown Hasna's Coffee Club tee worn at an outdoor cafe table",
+        "badge": "Coming soon",
+        "caption": "Design mockup. Final print may differ.",
+        "show_form": true,
+        "form_label": "Tell me when it drops",
+        "form_placeholder": "Enter your email address",
+        "form_button": "Notify me",
+        "form_tag": "merch-waitlist",
+        "success_text": "You're on the list. We'll email you first.",
+        "form_note": "One email when the tee is ready. Nothing else.",
+        "link_label": "Shop beans in the meantime",
+        "link_url": "/collections/beans"
+      },
+      "blocks": {
+        "fabric": {
+          "type": "spec",
+          "settings": {
+            "label": "Fabric",
+            "value": "Heavyweight cotton, boxy fit, pre-shrunk"
+          }
+        },
+        "print": {
+          "type": "spec",
+          "settings": {
+            "label": "Print",
+            "value": "Cream on espresso brown, back placement"
+          }
+        },
+        "printing": {
+          "type": "spec",
+          "settings": {
+            "label": "Printing",
+            "value": "Local Austin print shop, small first run"
+          }
+        }
+      },
+      "block_order": ["fabric", "print", "printing"]
+    }
+  },
+  "order": ["main"]
+}

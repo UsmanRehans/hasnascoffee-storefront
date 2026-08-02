@@ -1,0 +1,470 @@
+{%- comment -%}
+  Merch — coming soon.
+
+  Stands in for the product grid while the apparel line is still with the client
+  and the print shop. It deliberately ignores `collection.products`: this page is
+  a teaser, not an empty collection, so it should read as intentional rather than
+  as a store that failed to load. When the tees are real, switch the collection's
+  theme template back to "Default collection" in the admin and this section stops
+  being rendered — no code change needed.
+
+  Artwork ships in assets/ (image_asset) rather than Shopify Files so the page is
+  self-contained in the theme; the image_picker takes over if a Files image is
+  ever set.
+{%- endcomment -%}
+
+<section class="merch-soon">
+  <div class="container">
+    <div class="merch-soon__inner">
+
+      {%- comment -%} Copy column — the calm left field, per DESIGN_LANGUAGE §7. {%- endcomment -%}
+      <div class="merch-soon__copy">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="section-eyebrow" data-animate="fade">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="merch-soon__heading" data-animate>{{ section.settings.heading }}</h1>
+        {%- endif -%}
+
+        {% render 'tilet-rule', width: '96px', class: 'merch-soon__rule' %}
+
+        {%- if section.settings.text != blank -%}
+          <div class="merch-soon__text" data-animate>{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- comment -%}
+          Spec list. Blocks rather than settings so the client can drop a row when
+          a detail is still undecided instead of shipping a placeholder.
+        {%- endcomment -%}
+        {%- if section.blocks.size > 0 -%}
+          <dl class="merch-soon__specs" data-animate>
+            {%- for block in section.blocks -%}
+              <div class="merch-soon__spec" {{ block.shopify_attributes }}>
+                <dt>{{ block.settings.label }}</dt>
+                <dd>{{ block.settings.value }}</dd>
+              </div>
+            {%- endfor -%}
+          </dl>
+        {%- endif -%}
+
+        {%- comment -%}
+          Notify form. `form 'customer'` is the same subscribe endpoint the
+          newsletter section uses, so these sign-ups land in the existing customer
+          list — no separate app. The tag below is what separates merch interest
+          from general newsletter interest at launch.
+        {%- endcomment -%}
+        {%- if section.settings.show_form -%}
+          <div class="merch-soon__notify" data-animate>
+            {%- form 'customer', id: 'MerchNotifyForm' -%}
+              {%- if form.posted_successfully? -%}
+                <p class="merch-soon__success">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {{ section.settings.success_text }}
+                </p>
+              {%- else -%}
+                <input type="hidden" name="contact[tags]" value="{{ section.settings.form_tag }}">
+                <label class="merch-soon__label" for="MerchNotifyEmail">{{ section.settings.form_label }}</label>
+                <div class="merch-soon__form">
+                  <input
+                    class="merch-soon__input"
+                    type="email"
+                    name="contact[email]"
+                    id="MerchNotifyEmail"
+                    placeholder="{{ section.settings.form_placeholder }}"
+                    required
+                    autocorrect="off"
+                    autocapitalize="off"
+                  >
+                  <button type="submit" class="btn btn--primary merch-soon__submit">
+                    {{ section.settings.form_button }}
+                  </button>
+                </div>
+                {%- if form.errors -%}
+                  <p class="merch-soon__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endform -%}
+            {%- if section.settings.form_note != blank -%}
+              <p class="merch-soon__note">{{ section.settings.form_note }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+          <a class="merch-soon__back" href="{{ section.settings.link_url }}" data-animate="fade">
+            {{ section.settings.link_label }} <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Image column. {%- endcomment -%}
+      <figure class="merch-soon__media" data-animate>
+        <div class="merch-soon__frame">
+          {%- if section.settings.image -%}
+            <img
+              src="{{ section.settings.image | image_url: width: 1200 }}"
+              srcset="{{ section.settings.image | image_url: width: 700 }} 700w,
+                      {{ section.settings.image | image_url: width: 1200 }} 1200w"
+              sizes="(max-width: 900px) 92vw, 46vw"
+              alt="{{ section.settings.image.alt | escape | default: section.settings.image_alt }}"
+              width="1023"
+              height="1537"
+              loading="eager"
+            >
+          {%- elsif section.settings.image_asset != blank -%}
+            <img
+              src="{{ section.settings.image_asset | asset_url }}"
+              alt="{{ section.settings.image_alt | escape }}"
+              width="1023"
+              height="1537"
+              loading="eager"
+            >
+          {%- endif -%}
+          {%- if section.settings.badge != blank -%}
+            <span class="merch-soon__badge">{{ section.settings.badge }}</span>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.caption != blank -%}
+          <figcaption class="merch-soon__caption">{{ section.settings.caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<style>
+/* ------------------------------
+   Merch — coming soon
+------------------------------ */
+.merch-soon {
+  padding: var(--space-16) 0 var(--space-24);
+}
+
+.merch-soon__inner {
+  display: grid;
+  /* Copy narrower than the image: the photo is the argument, the copy is the
+     caption for it. */
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--space-16);
+  align-items: center;
+}
+
+/* --- Copy column --- */
+.merch-soon__heading {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-3xl), 3.6vw, var(--text-5xl));
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-text);
+  margin: 0 0 var(--space-5);
+}
+
+.merch-soon__rule { margin-bottom: var(--space-6); }
+
+.merch-soon__text {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 46ch;
+}
+.merch-soon__text p { margin: 0 0 var(--space-4); }
+.merch-soon__text p:last-child { margin-bottom: 0; }
+
+/* Spec list — a thin tilet-coloured left edge instead of a box, so the cream
+   field stays open. */
+.merch-soon__specs {
+  margin: var(--space-8) 0 0;
+  display: grid;
+  gap: var(--space-4);
+}
+.merch-soon__spec {
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border);
+}
+.merch-soon__spec dt {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-1);
+}
+.merch-soon__spec dd {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* --- Notify --- */
+.merch-soon__notify { margin-top: var(--space-10); max-width: 460px; }
+
+.merch-soon__label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.merch-soon__form { display: flex; gap: var(--space-3); }
+
+.merch-soon__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-5);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.merch-soon__input::placeholder { color: var(--color-text-muted); }
+.merch-soon__input:focus { border-color: var(--color-gold); }
+
+.merch-soon__submit { flex: 0 0 auto; }
+
+.merch-soon__success {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  color: var(--color-green);
+  margin: 0;
+}
+
+.merch-soon__error {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-red);
+}
+
+.merch-soon__note {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.merch-soon__back {
+  display: inline-block;
+  margin-top: var(--space-8);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.merch-soon__back:hover { color: var(--color-gold); }
+
+/* --- Image column --- */
+.merch-soon__media { margin: 0; }
+
+.merch-soon__frame {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-bg-alt);
+  box-shadow: 0 24px 60px rgba(26, 12, 5, 0.16);
+  /* The source shots are 2:3 portrait, which at this column width runs ~930px
+     tall and pushes the notify form off the first screen. Cropping to 4:5 holds
+     the shirt and loses the floor. */
+  aspect-ratio: 4 / 5;
+}
+.merch-soon__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Above centre: the print is the subject, not the chair. */
+  object-position: center 38%;
+}
+
+.merch-soon__badge {
+  position: absolute;
+  top: var(--space-5);
+  left: var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #F8F4EE;
+  background: rgba(26, 12, 5, 0.72);
+  backdrop-filter: blur(6px);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+}
+
+.merch-soon__caption {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .merch-soon { padding: var(--space-12) 0 var(--space-16); }
+  .merch-soon__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+  /* Photo first on small screens: it explains the page faster than the copy. */
+  .merch-soon__media { order: -1; }
+  .merch-soon__frame { max-width: 520px; margin: 0 auto; }
+  .merch-soon__text { max-width: none; }
+}
+
+@media (max-width: 520px) {
+  .merch-soon__form { flex-direction: column; }
+  .merch-soon__submit { width: 100%; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Merch coming soon",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Coffee Club"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The first tee is in the works"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body copy"
+    },
+    {
+      "type": "header",
+      "content": "Artwork"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Preview image"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Preview image asset",
+      "info": "Filename in assets/, used only when no image is picked above. e.g. merch-coffee-club-tee.jpg",
+      "default": "merch-coffee-club-tee.jpg"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Preview image alt text"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Image badge",
+      "default": "Coming soon"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Image caption",
+      "info": "Use this to say the shot is a mockup if the artwork is not final."
+    },
+    {
+      "type": "header",
+      "content": "Notify me"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_form",
+      "label": "Show the notify form",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "form_label",
+      "label": "Form label",
+      "default": "Tell me when it drops"
+    },
+    {
+      "type": "text",
+      "id": "form_placeholder",
+      "label": "Input placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "form_button",
+      "label": "Button label",
+      "default": "Notify me"
+    },
+    {
+      "type": "text",
+      "id": "form_tag",
+      "label": "Customer tag",
+      "info": "Applied to sign-ups from this page so merch interest can be emailed separately.",
+      "default": "merch-waitlist"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "You're on the list. We'll email you first."
+    },
+    {
+      "type": "text",
+      "id": "form_note",
+      "label": "Note under the form",
+      "default": "One email when the tee is ready. Nothing else."
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Shop beans in the meantime"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Detail",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

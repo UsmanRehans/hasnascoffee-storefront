@@ -2,13 +2,7 @@
   "sections": {
     "main": {
       "type": "main-collection",
-      "settings": {
-        "show_title": true,
-        "empty_image_asset": "merch-coffee-club.jpg",
-        "empty_alt": "A customer at an outdoor cafe wearing the brown Hasna's Coffee Club tee",
-        "empty_label": "Coming soon",
-        "empty_text": "The Coffee Club tee is the first piece. Heavyweight brown cotton, cream print, the jebena on the chest."
-      }
+      "settings": {}
     }
   },
   "order": ["main"]
